@@ -1,0 +1,36 @@
+
+* {
+  border: none;
+  border-radius: 0;
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: Aileron, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  min-height: 0;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd {
+  margin: 0 1rem;
+}
+
+#workspaces button.focused,
+#workspaces button.urgent {
+  font-weight: bold;
+  background-color: lightgrey;
+}
+
+#workspaces button.urgent {
+  color: #ee2222;
+}
+

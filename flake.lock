@@ -14,6 +14,7 @@
       },
       "original": {
         "owner": "nix-community",
+        "ref": "release-20.09",
         "repo": "home-manager",
         "type": "github"
       }
@@ -41,16 +42,16 @@
     },
     "stable": {
       "locked": {
-        "lastModified": 1600573085,
-        "narHash": "sha256-w5SGosyuTbFCBoUzgy2gyVcxYxRUvZ6SgHsRIPkZXgI=",
+        "lastModified": 1601334649,
+        "narHash": "sha256-bXW9AunmHAPpt0SC6ZsXftCxjoJc01w6cKMHHN9yX8Y=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1179840f9a88b8a548f4b11d1a03aa25a790c379",
+        "rev": "4712b946e40f99d1b9b3e1cc781b0a95f67087a0",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "nixos-unstable",
+        "ref": "release-20.09",
         "type": "indirect"
       }
     },

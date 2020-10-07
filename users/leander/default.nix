@@ -8,13 +8,15 @@ let secrets = import ../../secrets; in
       ../profiles/neovim
       ../profiles/state-version.nix
     ];
-    # programs.neovim.enable = true;
-  }; # // (import ../profiles/neovim args);
+  };
   users.users.leander = {
     uid = 1000;
     hashedPassword = secrets.leander.hashedPassword;
     description = "default";
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
+    shell = pkgs.fish;
   };
+
+  programs.fish.enable = true;
 }
