@@ -15,6 +15,11 @@
     pantheon.elementary-calculator
     pantheon.elementary-calendar
     gnome3.geary
+    libreoffice
+
+    spotify
+    teams
+    eid-mw
 
     # configuration
     # pantheon.elementary-settings-daemon
