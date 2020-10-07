@@ -19,4 +19,8 @@
     { device = "rpool/secure/nixos/config";
       fsType = "zfs";
     };
+
+    swapDevices = [
+      { device = "/dev/zvol/rpool/secure/swap"; }
+    ];
 }
