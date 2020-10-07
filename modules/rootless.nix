@@ -36,7 +36,7 @@ in
     {
 
       environment.etc = builtins.listToAttrs (map (path: {
-        name = lib.removePrefix "etc" path;
+        name = lib.removePrefix "/etc" path;
         value = {
           source = "${cfg.persistDir}/${path}";
         };
