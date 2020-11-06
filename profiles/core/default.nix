@@ -16,6 +16,7 @@ in
     systemPackages = with pkgs; [
       binutils
       coreutils
+      psmisc
       curl
       httpie
       direnv
@@ -32,6 +33,7 @@ in
       utillinux
       whois
       exa
+      ranger
     ];
 
     shellInit = ''

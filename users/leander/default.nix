@@ -14,7 +14,7 @@ let secrets = import ../../secrets; in
     hashedPassword = secrets.leander.hashedPassword;
     description = "default";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" ];
     shell = pkgs.fish;
   };
 

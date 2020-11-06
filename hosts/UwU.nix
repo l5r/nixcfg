@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   ### root password is empty by default ###
   imports = [
     ../users/leander
@@ -10,6 +10,7 @@
   ];
 
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.networkmanager.enable = true;
@@ -21,6 +22,7 @@
     };
 
   # rootless.enable = true;
+  virtualisation.docker.enable = true;
 
   nix.maxJobs = lib.mkDefault 4;
 
@@ -28,6 +30,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelPackages = pkgs.linuxPackages_5_8;
 
   system.stateVersion = "20.09";
 }

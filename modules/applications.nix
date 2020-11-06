@@ -19,6 +19,9 @@
 
     spotify
     teams
+    discord
+    slack
+
     eid-mw
 
     # configuration

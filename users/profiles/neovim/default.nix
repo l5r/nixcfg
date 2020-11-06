@@ -33,7 +33,7 @@
 
     extraConfig = ''
       set clipboard=unnamedplus
-      # TODO: make package
+      " TODO: make package
       source ${./keybinds.vim}
     '';
 

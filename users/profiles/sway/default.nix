@@ -58,6 +58,7 @@ with rec {
         "${modifier}+s" = "exec ${commands.menu}";
         "${modifier}+Ctrl+k" = "exec ${commands.keyboardSwitcher}";
         "${modifier}+w" = "exec ${commands.terminalDialog} ${commands.windowSelect}/bin/window-select";
+        "${modifier}+t" = "layout toggle all";
 
         # Media keys
         "XF86AudioRaiseVolume"  = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%";

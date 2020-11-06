@@ -5,6 +5,7 @@ let
     "/etc/NetworkManager/system-connections"
     # (lib.mkIf config.hardware.bluetooth.enable
     "/var/lib/bluetooth"
+    "/var/lib/docker"
   ];
   # cfg = config.rootless;
   cfg = { persistDir = "/persist"; };
