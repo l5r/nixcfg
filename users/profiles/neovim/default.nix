@@ -64,6 +64,7 @@
         coc-lists
         coc-highlight
         coc-metals
+        coc-wxml
       ] ++ (builtins.attrValues (import ./plugins args));
   };
 
