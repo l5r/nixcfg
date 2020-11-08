@@ -21,7 +21,7 @@
       fsType = "vfat";
     };
 
-  # rootless.enable = true;
+  rootless.enable = true;
   virtualisation.docker.enable = true;
 
   nix.maxJobs = lib.mkDefault 4;

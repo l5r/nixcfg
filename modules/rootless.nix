@@ -1,54 +1,54 @@
 { config, lib, pkgs, ... }:
 let
-  defaultDataPaths = [
-    # (lib.mkIf config.networking.networkmanager.enable
-    "/etc/NetworkManager/system-connections"
-    # (lib.mkIf config.hardware.bluetooth.enable
-    "/var/lib/bluetooth"
-    "/var/lib/docker"
+  defaultDataPaths = lib.mkMerge [
+    (lib.mkIf config.networking.networkmanager.enable
+    [ "/etc/NetworkManager/system-connections" ])
+    (lib.mkIf config.hardware.bluetooth.enable
+    [ "/var/lib/bluetooth" ])
+    (lib.mkIf config.virtualisation.docker.enable 
+    [ "/var/lib/docker" ])
   ];
-  # cfg = config.rootless;
-  cfg = { persistDir = "/persist"; };
+  cfg = config.rootless;
 in
   {
 
-    # options = {
-    #   rootless = {
-    #     enable = lib.mkEnableOption "rootless system";
-    #     persistDir = lib.mkOption {
-    #       example = /my/permanent/directory;
-    #       default = /persist;
-    #       type = lib.types.path;
-    #     };
+    imports = [ ./link.nix ];
 
-    #     dataPaths = lib.mkOption {
-    #       type = lib.types.listOf lib.types.path;
-    #       default = [];
-    #     };
-    #   };
-    # };
+    options = {
+      rootless = {
+        enable = lib.mkEnableOption "rootless system";
+        persistDir = lib.mkOption {
+          example = "/my/permanent/directory";
+          default = "/persist";
+          type = lib.types.path;
+        };
+
+        dataPaths = lib.mkOption {
+          type = lib.types.listOf lib.types.path;
+          default = [];
+        };
+
+        defaultDataPaths = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+        };
+      };
+    };
 
     config = let
-      #dataPaths = cfg.dataPaths ++ defaultDataPaths;
-      dataPaths = defaultDataPaths;
-      paths = (lib.groupBy (path: if lib.hasPrefix "/etc" path then "etcPaths" else "otherPaths") dataPaths);
-    in with paths;
-    #lib.mkIf cfg.enable {
-    {
+      dataPaths = lib.mkMerge (
+        [ cfg.dataPaths ] ++ [ (lib.mkIf cfg.defaultDataPaths defaultDataPaths) ]
+      );
+    in
+    lib.mkIf cfg.enable {
 
-      environment.etc = builtins.listToAttrs (map (path: {
-        name = lib.removePrefix "/etc" path;
-        value = {
-          source = "${cfg.persistDir}/${path}";
+        link = {
+          enable = true;
+          farms = [ {
+            dir = cfg.persistDir;
+            paths = dataPaths;
+          } ];
         };
-      }) etcPaths);
-
-      systemd.tmpfiles.rules = map (path:
-      "L ${path} - - - - ${cfg.persistDir}${path}"
-      ) otherPaths;
-
-      system.activationScripts.persist =
-        lib.concatMapStrings (p: "mkdir -p ${cfg.persistDir}${p}\n") dataPaths;
 
         fileSystems."/" = {
           fsType = "tmpfs";
