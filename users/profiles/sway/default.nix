@@ -19,9 +19,16 @@ with rec {
   };
 };
 {
+  imports = [ ./kanshi.nix ];
   home.packages = [commands.windowSelect];
   wayland.windowManager.sway = {
     enable = true;
+    wrapperFeatures.gtk = true;
+    extraConfig = ''
+      set $laptop eDP-1
+      bindswitch --reload --locked lid:on output $laptop disable
+      bindswitch --reload --locked lid:off output $laptop enable
+    '';
     config = {
       menu = commands.menu;
       # Logo key. Use Mod1 for Alt. Use Mod4 for ⌘.

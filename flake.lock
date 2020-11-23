@@ -5,16 +5,16 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1602452024,
-        "narHash": "sha256-UZ8YYjSFKMlv4Wb4Qaq4TYewuLH2qBXkZE9JFo7SUTo=",
-        "owner": "nix-community",
+        "lastModified": 1606136196,
+        "narHash": "sha256-U+wNJX0p6RRVWXmQuLDTuJJcIJDkPX6OnfMg+jG3OPw=",
+        "owner": "l5r",
         "repo": "home-manager",
-        "rev": "7339784e07217ed0232e08d1ea33b610c94657d8",
+        "rev": "61549eb3c4d6fc07b0c01bfdf7c3b6101cfd075f",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
-        "ref": "release-20.09",
+        "owner": "l5r",
+        "ref": "master",
         "repo": "home-manager",
         "type": "github"
       }

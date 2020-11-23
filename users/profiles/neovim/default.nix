@@ -33,8 +33,9 @@
 
     extraConfig = ''
       set clipboard=unnamedplus
-      " TODO: make package
       source ${./keybinds.vim}
+
+      highlight Identifier ctermfg=DarkBlue
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -63,8 +64,6 @@
         coc-git
         coc-lists
         coc-highlight
-        coc-metals
-        coc-wxml
       ] ++ (builtins.attrValues (import ./plugins args));
   };
 

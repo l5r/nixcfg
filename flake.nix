@@ -5,8 +5,9 @@
     {
       unstable.url = "nixpkgs/nixos-unstable";
       stable.url = "nixpkgs/release-20.09";
-      # home.url = "/home/leander/Projects/home-manager";
-      home.url = "github:nix-community/home-manager/release-20.09";
+      # home.url = "github:nix-community/home-manager/release-20.09";
+      # home.url = "/home/leander/p/home-manager";
+      home.url = "github:l5r/home-manager/master";
     };
 
   outputs = inputs@{ self, home, stable, unstable }:

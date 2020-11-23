@@ -7,6 +7,7 @@ let secrets = import ../../secrets; in
       ../profiles/fish.nix
       ../profiles/neovim
       ../profiles/state-version.nix
+      ../profiles/kitty.nix
     ];
   };
   users.users.leander = {

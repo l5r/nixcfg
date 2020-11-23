@@ -7,6 +7,7 @@
     pantheon.elementary-terminal
     pantheon.pantheon-agent-polkit
     gnome-usage
+    xdg_utils
 
     # applications
     pantheon.elementary-photos
@@ -21,6 +22,7 @@
     teams
     discord
     slack
+    zoom-us
 
     eid-mw
 
