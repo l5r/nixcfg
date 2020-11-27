@@ -16,6 +16,7 @@ with rec {
       cut -f 1 | \
       xargs -i ${pkgs.sway}/bin/swaymsg [con_id={}] focus
     '';
+    lock = "${pkgs.swaylock-fancy}/bin/swaylock-fancy";
   };
 };
 {
@@ -92,7 +93,7 @@ with rec {
         {
           command = ''
             ${pkgs.swayidle}/bin/swayidle -w \
-              timeout 300  'lock &' \
+              timeout 300  '${commands.lock} &' \
               timeout 600  '${pkgs.sway}/bin/swaymsg "output * dpms off"; systemctl suspend'\
               resume       '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
               before-sleep 'loginctl lock-session $XDG_SESSION_ID' \
