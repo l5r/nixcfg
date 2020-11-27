@@ -7,6 +7,8 @@ let
     [ "/var/lib/bluetooth" ])
     (lib.mkIf config.virtualisation.docker.enable 
     [ "/var/lib/docker" ])
+    (lib.mkIf config.services.zerotierone.enable
+    [ "/var/lib/zerotier-one" ])
   ];
   cfg = config.rootless;
 in

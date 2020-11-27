@@ -1,5 +1,8 @@
-
-{ config, pkgs, ...}: {
+{config, pkgs, ...}:
+let
+  secrets = import ../../secrets;
+in
+{
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -40,6 +43,11 @@
       domain = true;
       userServices = true;
     };
+  };
+
+  services.zerotierone = {
+    enable = true;
+    joinNetworks = secrets.zerotierone.joinNetworks;
   };
 
 }

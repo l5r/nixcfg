@@ -16,6 +16,8 @@
   networking.networkmanager.enable = true;
   networking.hostId = "cafebabe";
 
+  services.zfs.autoReplication.identityFilePath = ../secrets/zbackup_uwu_id_rsa;
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/90A7-80CD";
       fsType = "vfat";

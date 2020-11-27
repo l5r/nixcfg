@@ -8,6 +8,7 @@ let secrets = import ../../secrets; in
       ../profiles/neovim
       ../profiles/state-version.nix
       ../profiles/kitty.nix
+      ../profiles/spotify.nix
     ];
   };
   users.users.leander = {
