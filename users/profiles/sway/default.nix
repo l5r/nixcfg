@@ -78,7 +78,7 @@ with rec {
         "XF86AudioPlay"         = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
         "XF86AudioNext"         = "exec ${pkgs.playerctl}/bin/playerctl next";
         "XF86AudioPrev"         = "exec ${pkgs.playerctl}/bin/playerctl previous";
-        "Pause"                 = "exec lock";
+        "Pause"                 = "exec ${commands.lock}";
         "Shift+Pause"           = "exec systemctl suspend";
       };
 
