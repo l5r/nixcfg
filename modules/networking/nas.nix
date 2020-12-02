@@ -5,17 +5,24 @@ let
     AWS_ACCESS_KEY_ID = secrets.nas.s3AccessKeyID;
     AWS_SECRET_ACCESS_KEY = secrets.nas.s3SecretAccessKey;
   };
+  nasFsOpts = {
+    fsType = "nfs";
+    options = [
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=${toString (60*30)}"
+      "noauto"
+      "nofail"
+    ];
+  };
 in
   {
     fileSystems = {
 
-      "/mnt/nas/backup" = {
-        fsType = "nfs";
+      "/mnt/nas/backup" = nasFsOpts // {
         device = "[${secrets.nas.ip}]:/mnt/naspool1/backup";
       };
 
-      "/mnt/nas/data" = {
-        fsType = "nfs";
+      "/mnt/nas/data" = nasFsOpts // {
         device = "[${secrets.nas.ip}]:/mnt/naspool1/data";
       };
 

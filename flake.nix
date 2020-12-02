@@ -43,7 +43,7 @@
         );
 
       devShell."${system}" = import ./shell.nix {
-        inherit devPkgs;
+        pkgs = devPkgs;
       };
 
       overlay = import ./pkgs;
