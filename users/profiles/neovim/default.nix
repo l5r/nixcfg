@@ -1,6 +1,8 @@
 { config, pkgs, ... }@args:
 {
 
+  imports = [ ./coc-settings.nix ];
+
   home.packages = [ pkgs.solargraph pkgs.neovim-qt ];
 
   xdg.configFile."nvim/after/ftplugin/racket.vim".text = ''
