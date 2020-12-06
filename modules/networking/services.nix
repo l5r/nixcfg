@@ -1,4 +1,4 @@
-{config, pkgs, ...}:
+{ config, pkgs, ... }:
 let
   secrets = import ../../secrets;
 in
@@ -31,6 +31,7 @@ in
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [
+    epson-escpr
     hplip
   ];
 

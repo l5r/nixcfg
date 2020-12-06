@@ -4,6 +4,7 @@
     # ./core
     ./graphical
     ./networking
+    ./games.nix
 
     ../modules/rootless.nix
   ];

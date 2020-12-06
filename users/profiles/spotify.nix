@@ -1,5 +1,7 @@
-{ config, pkgs, lib, ...}:
-let secrets = import ../../secrets; in
+{ config, pkgs, lib, ... }:
+let
+  secrets = import ../../secrets;
+in
 {
 
   services.spotifyd = {
@@ -10,7 +12,9 @@ let secrets = import ../../secrets; in
       withMpris = true;
     };
     settings = {
-      global = secrets.spotify;
+      global = {
+        backend = "pulseaudio";
+      } // secrets.spotify;
     };
   };
 
