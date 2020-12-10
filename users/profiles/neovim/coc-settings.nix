@@ -1,8 +1,25 @@
 { config, pkgs, ... }:
+let
+  lazyBin = pkg: bin: pkgs.writeShellScript "lazy-${bin}" (
+    builtins.unsafeDiscardOutputDependency ''
+      nix shell --derivation ${pkg.drvPath} -c ${bin} $@
+    ''
+  );
+in
 {
   xdg.configFile."nvim/coc-settings.json".text = builtins.toJSON
     {
-      "coc.preferences.formatOnSaveFiletypes" = [ "nix" "scala" ];
+      "coc.preferences.formatOnSaveFiletypes" = [
+        "nix"
+        "scala"
+        "py"
+        "python"
+        "json"
+        "js"
+        "javascript"
+        "css"
+        "scss"
+      ];
       "diagnostic-languageserver.filetypes" = {
         markdown = "languagetool";
         pandoc = "languagetool";
@@ -45,6 +62,18 @@
           command = "racket";
           filetypes = [ "rkt" "scm" "racket" "scribble" "scrbbl" ];
         };
+        python-language-server = let
+          python = pkgs.python38.withPackages (
+            ps: with ps; [
+              python-language-server
+              pyls-black
+            ]
+          );
+        in
+          {
+            command = lazyBin python "pyls";
+            filetypes = [ "python" "py" ];
+          };
       };
     };
 }
