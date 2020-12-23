@@ -58,19 +58,21 @@
       direnv-vim
 
       vim-plug
+      vimtex
 
       vim-polyglot
+      coc-css
+      coc-git
+      coc-highlight
+      coc-lists
       coc-nvim
+      coc-rls
       coc-snippets
       coc-solargraph
-      coc-yaml
-      coc-css
-      coc-rls
       coc-tsserver
       coc-vetur
-      coc-git
-      coc-lists
-      coc-highlight
+      coc-vimtex
+      coc-yaml
     ] ++ (builtins.attrValues (import ./plugins args));
   };
 
