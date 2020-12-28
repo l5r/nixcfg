@@ -26,9 +26,8 @@ with rec {
 
     output="$(swaymsg -t get_outputs --raw | ${pkgs.jq}/bin/jq '.[] | select(.make == "headless") | .name')"
     if [ -z "$output" ]; then swaymsg create_output; fi
-    swaymsg output HEADLESS-1 scale 2
-    swaymsg output HEADLESS-1 transform 90
-    swaymsg output HEADLESS-1 mode 1872x1408
+    swaymsg output HEADLESS-1 scale 1.5
+    swaymsg output HEADLESS-1 mode 1408x1872
     swaymsg output HEADLESS-1 enable
 
     nix run nixpkgs#wayvnc -- -o HEADLESS-1 localhost &
