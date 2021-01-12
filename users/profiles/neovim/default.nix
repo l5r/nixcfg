@@ -65,6 +65,7 @@
       coc-git
       coc-highlight
       coc-lists
+      coc-metals
       coc-nvim
       coc-rls
       coc-snippets
