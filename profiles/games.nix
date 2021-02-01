@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let
   steam = pkgs.steam.override {
-    extraPkgs = pkgs: [ pkgs.libpng ];
+    extraPkgs = pkgs: [ pkgs.libpng pkgs.gcc ];
   };
 in
 {

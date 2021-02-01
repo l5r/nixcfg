@@ -1,4 +1,6 @@
-let secrets = import ../../secrets; in
+let
+  secrets = import ../../secrets;
+in
 { pkgs, config, lib, ... }@args: {
   home-manager.users.leander = {
     imports = [
@@ -16,7 +18,7 @@ let secrets = import ../../secrets; in
     hashedPassword = secrets.leander.hashedPassword;
     description = "default";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" ];
     shell = pkgs.fish;
   };
 
