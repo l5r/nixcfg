@@ -1,4 +1,3 @@
-
 { config, pkgs, ... }: {
 
   programs = {
@@ -7,7 +6,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    firefox-devedition-bin
+    (
+      firefox-devedition-bin.override {
+        forceWayland = true;
+        pkcs11Modules = [ pkgs.eid-mw ];
+      }
+    )
     kitty
     lxtask
     pantheon.elementary-files
@@ -44,4 +48,3 @@
   services.pipewire.enable = true;
 
 }
-
