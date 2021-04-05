@@ -11,6 +11,7 @@ in
     {
       "coc.preferences.formatOnSaveFiletypes" = [
         "nix"
+        "java"
         "scala"
         "py"
         "python"
@@ -19,6 +20,8 @@ in
         "javascript"
         "css"
         "scss"
+        "rs"
+        "rust"
       ];
       "diagnostic-languageserver.filetypes" = {
         markdown = "languagetool";
@@ -51,6 +54,7 @@ in
           command = "${pkgs.rnix-lsp}/bin/rnix-lsp";
           filetypes = [ "nix" ];
         };
+        java.format.settings.url = "file://${./java-style.xml}";
         ccls = {
           command = "ccls";
           filetypes = [ "c" "cpp" "objc" "objcpp" ];
@@ -75,5 +79,6 @@ in
             filetypes = [ "python" "py" ];
           };
       };
+      rust-client.disableRustup = true;
     };
 }

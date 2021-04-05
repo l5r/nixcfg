@@ -30,7 +30,9 @@ let
             ];
 
             networking.hostName = hostName;
-            nix.nixPath = let path = toString ../.; in
+            nix.nixPath = let
+              path = toString ../.;
+            in
               [
                 "nixpkgs=${stable}"
                 "nixpkgs-unstable=${unstable}"
@@ -53,13 +55,13 @@ let
 
             nixpkgs.overlays =
               let
-                override = import ../pkgs/override.nix stable;
+                override = import ../pkgs/override.nix pkgset.devPkgs;
 
                 overlay = pkg: final: prev: {
                   "${pkg.pname}" = pkg;
                 };
               in
-              map overlay override;
+                map overlay override;
           };
 
           local = import "${toString ./. }/${hostName}.nix";
@@ -69,7 +71,7 @@ let
             attrValues (removeAttrs self.nixosModules [ "profiles" ]);
 
         in
-        flakeModules ++ [ core global local home-manager overrides ];
+          flakeModules ++ [ core global local home-manager overrides ];
 
     };
 

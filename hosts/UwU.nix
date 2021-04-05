@@ -19,7 +19,8 @@
   services.zfs.autoReplication.identityFilePath = ../secrets/zbackup_uwu_id_rsa;
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/90A7-80CD";
+    {
+      device = "/dev/disk/by-uuid/90A7-80CD";
       fsType = "vfat";
     };
 
@@ -29,9 +30,9 @@
   nix.maxJobs = lib.mkDefault 4;
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [];
   boot.kernelPackages = pkgs.linuxPackages_5_8;
 
   system.stateVersion = "20.09";

@@ -1,4 +1,3 @@
-
 { config, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
@@ -20,4 +19,6 @@
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };
+
+  services.pipewire.enable = true;
 }

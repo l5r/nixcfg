@@ -33,7 +33,7 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [];
-  boot.kernelPackages = pkgs.linuxPackages_5_8;
+  boot.kernelPackages = pkgs.linuxPackages_5_10;
 
   system.stateVersion = "20.09";
 }

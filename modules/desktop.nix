@@ -34,6 +34,7 @@
   services.gnome3 = {
     gnome-keyring.enable = true;
     gnome-online-accounts.enable = true;
+    core-os-services.enable = true;
   };
   services.gvfs.enable = true;
   services.pantheon.contractor.enable = true;
@@ -44,7 +45,5 @@
       gsignondPlugins.oauth
     ];
   };
-
-  services.pipewire.enable = true;
 
 }

@@ -64,6 +64,7 @@
       coc-css
       coc-git
       coc-highlight
+      coc-java
       coc-lists
       coc-metals
       coc-nvim
