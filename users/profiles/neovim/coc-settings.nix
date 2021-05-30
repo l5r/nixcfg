@@ -54,7 +54,6 @@ in
           command = "${pkgs.rnix-lsp}/bin/rnix-lsp";
           filetypes = [ "nix" ];
         };
-        java.format.settings.url = "file://${./java-style.xml}";
         ccls = {
           command = "ccls";
           filetypes = [ "c" "cpp" "objc" "objcpp" ];
