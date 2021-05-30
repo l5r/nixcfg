@@ -5,6 +5,7 @@
     ../users/root
 
     ../profiles/laptop.nix
+    ../profiles/devel/racket.nix
     ../modules/zfs.nix
     ../modules/applications.nix
   ];
@@ -36,4 +37,5 @@
   boot.kernelPackages = pkgs.linuxPackages_5_8;
 
   system.stateVersion = "20.09";
+
 }
