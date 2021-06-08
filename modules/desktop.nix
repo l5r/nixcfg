@@ -31,7 +31,7 @@
   ];
 
   programs.dconf.enable = true;
-  services.gnome3 = {
+  services.gnome = {
     gnome-keyring.enable = true;
     gnome-online-accounts.enable = true;
     core-os-services.enable = true;

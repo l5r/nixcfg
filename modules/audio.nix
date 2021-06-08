@@ -14,11 +14,15 @@
 
   nixpkgs.config.pulseaudio = true;
   hardware.pulseaudio = {
-    enable = true;
+    enable = false;
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };
 
-  services.pipewire.enable = true;
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+  };
 }
