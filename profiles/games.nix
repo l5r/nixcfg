@@ -1,13 +1,8 @@
 { pkgs, config, ... }:
-let
-  steam = pkgs.steam.override {
-    extraPkgs = pkgs: [ pkgs.libpng pkgs.gcc ];
-  };
-in
 {
   environment.systemPackages = [
-    steam
-    steam.run
+    pkgs.steam
+    pkgs.steam.run
     pkgs.multimc
   ];
 
@@ -32,5 +27,7 @@ in
     fsType = "zfs";
     options = [ "nofail" ];
   };
+
+  programs.steam.enable = true;
 
 }
