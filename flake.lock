@@ -5,17 +5,17 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1622902543,
-        "narHash": "sha256-MPEbCT/+j+fcrDr4eicVAokbFh7Ql4x3g9YSBAkSkXI=",
+        "lastModified": 1622678600,
+        "narHash": "sha256-mDNqOvtiZs6HuNxkfMUGhmUwAbQxdOyqecf0rVGq7h0=",
         "owner": "l5r",
         "repo": "home-manager",
-        "rev": "a212cc9ffd60fc36400b55bcf15bb4dba77cae31",
+        "rev": "95da56b783e4ccc8ded71137e4add780b239dd46",
         "type": "github"
       },
       "original": {
         "owner": "l5r",
-        "ref": "master",
         "repo": "home-manager",
+        "rev": "95da56b783e4ccc8ded71137e4add780b239dd46",
         "type": "github"
       }
     },
