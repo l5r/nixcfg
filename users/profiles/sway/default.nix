@@ -44,7 +44,8 @@ with rec {
   ];
   wayland.windowManager.sway = {
     enable = true;
-    wrapperFeatures.gtk = true;
+    # Have NixOS install sway instead
+    package = lib.mkForce null;
     extraConfig = ''
       set $laptop eDP-1
       bindswitch --reload --locked lid:on output $laptop disable

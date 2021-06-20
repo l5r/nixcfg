@@ -4,4 +4,4 @@
 # installed by the user elsewhere in the configuration.
 pkgs:
 with pkgs;
-[ discord (spotify // { pname = "spotify"; }) ]
+[ discord (spotify // { pname = "spotify"; }) teams ] # (sway // { pname = "sway"; }) mesa_drivers (cogl // { pname = "cogl"; }) ]
