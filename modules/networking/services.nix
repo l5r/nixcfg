@@ -28,13 +28,6 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-  services.printing.drivers = with pkgs; [
-    epson-escpr
-    hplip
-  ];
-
   services.avahi = {
     enable = true;
     ipv6 = true;
