@@ -8,12 +8,8 @@
     ../profiles/devel/racket.nix
     ../modules/zfs.nix
     ../modules/applications.nix
-
-    # Temporary
-    ../profiles/graphical/xfce.nix
+    ../profiles/teams.nix
   ];
-
-  environment.systemPackages = [ pkgs.ungoogled-chromium ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;

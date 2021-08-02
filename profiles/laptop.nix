@@ -8,4 +8,6 @@
     ../modules/rootless.nix
   ];
 
+  services.tlp.enable = true;
+
 }

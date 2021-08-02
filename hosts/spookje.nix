@@ -7,6 +7,7 @@
     ../profiles/devel/default.nix
     ../modules/zfs.nix
     ../modules/applications.nix
+    ../profiles/teams.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
