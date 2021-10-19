@@ -9,8 +9,4 @@
 
     ../modules/rootless.nix
   ];
-  hardware.opengl.extraPackages = [
-    pkgs.rocm-opencl-icd
-    pkgs.rocm-opencl-runtime
-  ];
 }

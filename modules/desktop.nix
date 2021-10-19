@@ -7,7 +7,7 @@
 
   environment.systemPackages = with pkgs; [
     (
-      firefox-devedition-bin.override {
+      firefox-wayland.override {
         forceWayland = true;
         pkcs11Modules = [ pkgs.eid-mw ];
       }
@@ -30,6 +30,16 @@
     pantheon.extra-elementary-contracts
   ];
 
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      gtkUsePortal = true;
+    };
+  };
   programs.dconf.enable = true;
   services.gnome = {
     gnome-keyring.enable = true;

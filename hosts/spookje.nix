@@ -28,12 +28,17 @@
   rootless.enable = true;
   virtualisation.docker.enable = true;
 
+  hardware.opengl.extraPackages = [
+    pkgs.rocm-opencl-icd
+    pkgs.rocm-opencl-runtime
+  ];
+
   nix.maxJobs = lib.mkDefault 12;
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = [ ];
   boot.kernelPackages = pkgs.linuxPackages_5_12;
 
   system.stateVersion = "20.09";
