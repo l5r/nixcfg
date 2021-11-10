@@ -1,17 +1,22 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+let
+  firefoxes = map
+    (wayland:
+      pkgs.firefox.override {
+        forceWayland = wayland;
+        pkcs11Modules = [ pkgs.eid-mw ];
+      }
+    )
+    [ true false ];
+in
+{
 
   programs = {
     evince.enable = true;
     nm-applet.enable = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    (
-      firefox-wayland.override {
-        forceWayland = true;
-        pkcs11Modules = [ pkgs.eid-mw ];
-      }
-    )
+  environment.systemPackages = with pkgs; firefoxes ++ [
     kitty
     lxtask
     pantheon.elementary-files

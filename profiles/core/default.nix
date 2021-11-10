@@ -9,7 +9,6 @@ in
   imports = [
     ../../local/locale.nix
     ../../modules/neovim.nix
-    # <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
   ];
 
   environment = {
@@ -37,72 +36,65 @@ in
       ranger
     ];
 
-    shellInit = ''
-      export STARSHIP_CONFIG=${
-    pkgs.writeText "starship.toml"
-      (fileContents ./starship.toml)
-    }
-    '';
-
     shellAliases =
       let
         ifSudo = lib.mkIf config.security.sudo.enable;
       in
-        {
-          # quick cd
-          ".." = "cd ..";
-          "..." = "cd ../..";
-          "...." = "cd ../../..";
-          "....." = "cd ../../../..";
+      {
+        # quick cd
+        ".." = "cd ..";
+        "..." = "cd ../..";
+        "...." = "cd ../../..";
+        "....." = "cd ../../../..";
 
-          # better ls
-          ls = "exa --classify --git";
-          ll = "ls -l --header --group";
-          la = "ll -a";
-          tree = "ls --tree";
-          trea = "la --tree";
+        # better ls
+        ls = "exa --classify --git";
+        ll = "ls -l --header --group";
+        la = "ll -a";
+        tree = "ls --tree";
+        trea = "la --tree";
 
-          # git
-          g = "git";
+        # git
+        g = "git";
 
-          # grep
-          grep = "rg";
-          gi = "grep -i";
+        # grep
+        grep = "rg";
+        gi = "grep -i";
 
-          # internet ip
-          myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
+        # internet ip
+        myip = "dig +short myip.opendns.com @208.67.222.222 2>&1";
 
-          # nix
-          n = "nix";
-          np = "n profile";
-          ni = "np install";
-          nr = "np remove";
-          ns = "n search --no-update-lock-file";
-          nf = "n flake";
-          srch = "ns nixpkgs";
-          nrb = ifSudo "sudo nixos-rebuild";
+        # nix
+        n = "nix";
+        np = "n profile";
+        ni = "np install";
+        nr = "np remove";
+        ns = "n search --no-update-lock-file";
+        nf = "n flake";
+        srch = "ns nixpkgs";
+        nrb = ifSudo "sudo nixos-rebuild";
 
-          # sudo
-          s = ifSudo "sudo -E ";
-          si = ifSudo "sudo -i";
-          se = ifSudo "sudoedit";
+        # sudo
+        s = ifSudo "sudo -E ";
+        si = ifSudo "sudo -i";
+        se = ifSudo "sudoedit";
 
-          # top
-          top = "gotop";
+        # top
+        top = "gotop";
 
-          # systemd
-          ctl = "systemctl";
-          stl = ifSudo "s systemctl";
-          utl = "systemctl --user";
-          ut = "systemctl --user start";
-          un = "systemctl --user stop";
-          up = ifSudo "s systemctl start";
-          dn = ifSudo "s systemctl stop";
-          jtl = "journalctl";
+        # systemd
+        ctl = "systemctl";
+        stl = ifSudo "s systemctl";
+        utl = "systemctl --user";
+        ut = "systemctl --user start";
+        un = "systemctl --user stop";
+        up = ifSudo "s systemctl start";
+        dn = ifSudo "s systemctl stop";
+        jtl = "journalctl";
 
-          # ranger
-          r = "ranger";
-        };
+        # ranger
+        r = "ranger";
+      };
 
   };
 
@@ -140,15 +132,6 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  programs.bash = {
-    promptInit = ''
-      eval "$(${pkgs.starship}/bin/starship init bash)"
-    '';
-    shellInit = ''
-      eval "$(${pkgs.direnv}/bin/direnv hook bash)"
-    '';
-  };
 
   security = {
 
