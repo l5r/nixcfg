@@ -17,7 +17,7 @@ get_plugin_entry() {
   hash=$(nix-prefetch-url --unpack $tarball)
   git clone --depth=1 $rep $name
   cd $name
-  version=$(git log -n 1 --pretty=format:"%ci" | sed 's/\([0-9-]\)\s.*/\1/g')
+  version=$(git log -n 1 --pretty=format:"%cs" | sed 's/\([0-9-]\)\s.*/\1/g')
   cd ../
   rm -rf $name
 

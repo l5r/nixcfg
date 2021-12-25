@@ -4,14 +4,18 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-21.05";
+      stable.url = "nixpkgs/nixos-21.11";
       home = {
-        url = "github:nix-community/home-manager/release-21.05";
+        url = "github:nix-community/home-manager/release-21.11";
+        inputs.nixpkgs.follows = "stable";
+      };
+      darwin = {
+        url = "github:lnl7/nix-darwin/master";
         inputs.nixpkgs.follows = "stable";
       };
     };
 
-  outputs = inputs@{ self, home, stable, unstable }:
+  outputs = inputs@{ self, home, stable, unstable, darwin }:
     let
       inherit (builtins) attrNames attrValues readDir;
       inherit (stable) lib;
@@ -20,7 +24,7 @@
 
       utils = import ./lib/utils.nix { inherit lib; };
 
-      system = "x86_64-linux";
+      system = "aarch64-darwin";
 
       pkgImport = pkgs:
         import pkgs {
@@ -43,6 +47,15 @@
               inherit lib pkgset system utils;
             }
           );
+
+        darwinConfigurations = 
+          import ./darwinConfigurations (
+            recursiveUpdate inputs {
+              inherit lib pkgset system utils home;
+            }
+          );
+
+        darwinPackages = pkgset.osPkgs;
 
         devShell."${system}" = import ./shell.nix {
           pkgs = devPkgs;

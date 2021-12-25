@@ -4,7 +4,6 @@
     ../users/nixos
     # passwd is empty by default
     ../users/root
-    "${modulesPath}/installer/cd-dvd/iso-image.nix"
     ../modules/applications.nix
     ../profiles/graphical
   ];

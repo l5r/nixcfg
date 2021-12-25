@@ -3,7 +3,7 @@
 
   imports = [ ./coc-settings.nix ];
 
-  home.packages = [ pkgs.solargraph pkgs.neovim-qt ];
+  home.packages = [ pkgs.solargraph ];
 
   xdg.configFile."nvim/after/ftplugin/racket.vim".text = ''
     imap <buffer> <C-L> λ
@@ -56,11 +56,19 @@
       vim-surround
       vim-tmux-navigator
       direnv-vim
-
+      vim-sexp
+      vim-sexp-mappings-for-regular-people
+      coc-snippets
+      friendly-snippets
       vim-plug
       vimtex
+      vim-table-mode
 
+      vim-pandoc
+      vim-pandoc-syntax
       vim-polyglot
+      vim-rails
+      coc-clangd
       coc-css
       coc-git
       coc-highlight
@@ -69,7 +77,6 @@
       coc-metals
       coc-nvim
       coc-rls
-      coc-snippets
       coc-solargraph
       coc-tsserver
       coc-vetur

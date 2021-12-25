@@ -4,13 +4,7 @@ in
 { pkgs, config, lib, ... }@args: {
   home-manager.users.leander = {
     imports = [
-      ../profiles/sway
-      ../profiles/sway/waybar.nix
-      ../profiles/fish.nix
-      ../profiles/neovim
-      ../profiles/state-version.nix
-      ../profiles/kitty.nix
-      ../profiles/spotify.nix
+      ../profiles/default.nix
     ];
   };
   users.users.leander = {
