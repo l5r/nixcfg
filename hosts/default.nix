@@ -30,9 +30,10 @@ let
             ];
 
             networking.hostName = hostName;
-            nix.nixPath = let
-              path = toString ../.;
-            in
+            nix.nixPath =
+              let
+                path = toString ../.;
+              in
               [
                 "nixpkgs=${stable}"
                 "nixpkgs-unstable=${unstable}"
@@ -61,17 +62,17 @@ let
                   "${pkg.pname}" = pkg;
                 };
               in
-                map overlay override;
+              map overlay override;
           };
 
-          local = import "${toString ./. }/${hostName}.nix";
+          local = "${toString ./. }/${hostName}.nix";
 
           # Everything in `./modules/list.nix`.
           flakeModules =
             attrValues (removeAttrs self.nixosModules [ "profiles" ]);
 
         in
-          flakeModules ++ [ core global local home-manager overrides ];
+        flakeModules ++ [ core global local home-manager overrides ];
 
     };
 

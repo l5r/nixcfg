@@ -4,106 +4,65 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-21.11";
+      stable.url = "nixpkgs/nixos-22.05";
       home = {
-        url = "github:nix-community/home-manager/release-21.11";
+        url = "github:nix-community/home-manager/release-22.05";
         inputs.nixpkgs.follows = "stable";
       };
-      darwin = {
+      nix-darwin = {
         url = "github:lnl7/nix-darwin/master";
         inputs.nixpkgs.follows = "stable";
       };
+      flake-utils-plus = {
+        url = "github:gytis-ivaskevicius/flake-utils-plus";
+      };
+
+      stylix = {
+        url = "github:danth/stylix";
+        inputs.nixpkgs.follows = "stable";
+        inputs.home-manager.follows = "home";
+      };
     };
 
-  outputs = inputs@{ self, home, stable, unstable, darwin }:
-    let
-      inherit (builtins) attrNames attrValues readDir;
-      inherit (stable) lib;
-      inherit (lib) removeSuffix recursiveUpdate genAttrs filterAttrs;
-      inherit (utils) pathsToImportedAttrs;
+  outputs =
+    inputs@{ self
+    , flake-utils-plus
+    , home
+    , stable
+    , unstable
+    , nix-darwin
+    , stylix
+    }:
+    flake-utils-plus.lib.mkFlake {
+      inherit self inputs;
 
-      utils = import ./lib/utils.nix { inherit lib; };
-
-      system = "aarch64-darwin";
-
-      pkgImport = pkgs:
-        import pkgs {
-          inherit system;
-          overlays = attrValues self.overlays;
-          config = { allowUnfree = true; };
-        };
-
-      pkgset = {
-        osPkgs = pkgImport stable;
-        devPkgs = pkgImport unstable;
+      channelsConfig = { allowUnfree = true; };
+      channels.nixpkgs = {
+        input = stable;
+        overlaysBuilder = channels: [
+          (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
+        ];
       };
 
-    in
-      with pkgset;
-      {
-        nixosConfigurations =
-          import ./hosts (
-            recursiveUpdate inputs {
-              inherit lib pkgset system utils;
-            }
-          );
+      #########
+      # Hosts
+      #########
 
-        darwinConfigurations = 
-          import ./darwinConfigurations (
-            recursiveUpdate inputs {
-              inherit lib pkgset system utils home;
-            }
-          );
+      hosts.spookje.modules = [
+        home.nixosModules.home-manager
+        stylix.nixosModules.stylix
+        ./hosts/spookje.nix
+      ];
 
-        darwinPackages = pkgset.osPkgs;
-
-        devShell."${system}" = import ./shell.nix {
-          pkgs = devPkgs;
-        };
-
-        overlay = import ./pkgs;
-
-        overlays =
-          let
-            overlayDir = ./overlays;
-            fullPath = name: overlayDir + "/${name}";
-            overlayPaths = map fullPath (attrNames (readDir overlayDir));
-          in
-            pathsToImportedAttrs overlayPaths;
-
-        packages."${system}" =
-          let
-            packages = self.overlay osPkgs osPkgs;
-            overlays = lib.filterAttrs (n: v: n != "pkgs") self.overlays;
-            overlayPkgs =
-              genAttrs
-                (attrNames overlays)
-                (name: (overlays."${name}" osPkgs osPkgs)."${name}");
-          in
-            recursiveUpdate packages overlayPkgs;
-
-        nixosModules =
-          let
-            # binary cache
-            cachix = import ./cachix.nix;
-            cachixAttrs = { inherit cachix; };
-
-            # modules
-            moduleList = import ./modules/list.nix;
-            modulesAttrs = pathsToImportedAttrs moduleList;
-
-            # profiles
-            profilesList = import ./profiles/list.nix;
-            profilesAttrs = { profiles = pathsToImportedAttrs profilesList; };
-
-          in
-            recursiveUpdate
-              (recursiveUpdate cachixAttrs modulesAttrs)
-              profilesAttrs;
-
-        templates.flk.path = ./.;
-        templates.flk.description = "flk template";
-
-        defaultTemplate = self.templates.flk;
+      hosts.ligma = {
+        system = flake-utils-plus.systems.aarch64-darwin;
+        output = "darwinConfigurations";
+        builder = nix-darwin.lib.darwinSystem;
+        modules = [
+          home.darwinModules.home-manager
+          ./hosts/ligma.nix
+        ];
       };
+
+    };
 }

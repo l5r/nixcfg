@@ -32,19 +32,8 @@ in
     pantheon.elementary-icon-theme
     gnome3.adwaita-icon-theme
     elementary-xfce-icon-theme
-    pantheon.extra-elementary-contracts
   ];
 
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-      gtkUsePortal = true;
-    };
-  };
   programs.dconf.enable = true;
   services.gnome = {
     gnome-keyring.enable = true;
@@ -61,4 +50,47 @@ in
     ];
   };
 
+  fonts = {
+    fonts = with pkgs; [
+      fira-code
+      font-awesome
+      aileron
+      tenderness
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      dejavu_fonts
+
+      corefonts
+      vistafonts
+    ];
+
+    fontconfig.defaultFonts = {
+
+      monospace = [ "Fira Code Nerd Font" ];
+
+      sansSerif = [ "Aileron" ];
+
+    };
+  };
+
+  stylix = {
+    polarity = "light";
+    image = ./wallpaper.png;
+    fonts = {
+      sansSerif = {
+        package = pkgs.aileron;
+        name = "Aileron";
+      };
+      serif = {
+        package = pkgs.tenderness;
+        name = "Tenderness";
+      };
+      monospace = {
+        package = pkgs.fira-code;
+        name = "Fira Code";
+      };
+    };
+    targets.gtk.enable = false;
+  };
 }

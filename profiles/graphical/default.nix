@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    ../../modules/desktop.nix
+    ./desktop.nix
     ../../modules/audio.nix
-    ../../modules/sway.nix
+    ./sway.nix
     ./greetd.nix
   ];
 }

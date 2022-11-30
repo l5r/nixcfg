@@ -15,17 +15,6 @@ in
     ../../modules/neovim.nix
   ];
 
-  fonts = {
-    fonts = with pkgs; [ fira-code font-awesome aileron dejavu_fonts ];
-
-    fontconfig.defaultFonts = {
-
-      monospace = [ "Fira Code Nerd Font" ];
-
-      sansSerif = [ "Aileron" ];
-
-    };
-  };
 
   security = {
 

@@ -12,7 +12,7 @@
 
   programs.neovim = {
     enable = true;
-    package = pkgs.neovim-unwrapped;
+    # package = pkgs.neovim-unwrapped;
     vimAlias = true;
     withNodeJs = true;
     withPython3 = true;
@@ -44,6 +44,7 @@
       source ${./keybinds.vim}
 
       highlight Identifier ctermfg=DarkBlue
+      hi link CocFloating Normal
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -75,7 +76,6 @@
       coc-java
       coc-lists
       coc-metals
-      coc-nvim
       coc-rls
       coc-solargraph
       coc-tsserver

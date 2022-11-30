@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    # ./core
+    ./core
     ./graphical
     ./networking
     ./games.nix

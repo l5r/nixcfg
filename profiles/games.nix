@@ -3,7 +3,7 @@
   environment.systemPackages = [
     pkgs.steam
     pkgs.steam.run
-    pkgs.multimc
+    # pkgs.polymc
   ];
 
   # Steam is 32-bit

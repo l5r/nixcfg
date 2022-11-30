@@ -18,7 +18,7 @@
     gnome3.geary
     libreoffice
 
-    spotify
+    # spotify
     teams
     discord
     slack

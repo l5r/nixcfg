@@ -57,9 +57,7 @@ with rec {
       modifier = "Mod4";
 
       # Use Polybar instead
-      bars = [];
-
-
+      bars = [ ];
 
       input = {
         "type:keyboard" = {
@@ -80,9 +78,10 @@ with rec {
       };
 
       # Keybindings
-      keybindings = let
-        modifier = config.wayland.windowManager.sway.config.modifier;
-      in
+      keybindings =
+        let
+          modifier = config.wayland.windowManager.sway.config.modifier;
+        in
         lib.mkOptionDefault {
           "${modifier}+Return" = "exec ${terminal}";
           "${modifier}+s" = "exec ${commands.menu}";

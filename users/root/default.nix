@@ -7,4 +7,5 @@ let secrets = import ../../secrets; in
     ../profiles/state-version.nix
   ];
   users.users.root.hashedPassword = secrets.root.hashedPassword;
+  users.users.leander.extraGroups = [ "video" ];
 }

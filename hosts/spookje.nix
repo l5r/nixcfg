@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, config, ... }: {
   imports = [
     ../users/leander
     ../users/root
@@ -28,10 +28,10 @@
   rootless.enable = true;
   virtualisation.docker.enable = true;
 
-  hardware.opengl.extraPackages = [
-    pkgs.rocm-opencl-icd
-    pkgs.rocm-opencl-runtime
-  ];
+  # hardware.opengl.extraPackages = [
+  #   pkgs.rocm-opencl-icd
+  #   pkgs.rocm-opencl-runtime
+  # ];
 
   nix.maxJobs = lib.mkDefault 12;
 
@@ -39,7 +39,10 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxPackages_5_12;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_4;
+  boot.zfs.enableUnstable = true;
 
   system.stateVersion = "20.09";
+
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

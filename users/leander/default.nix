@@ -12,7 +12,7 @@ in
     hashedPassword = secrets.leander.hashedPassword;
     description = "default";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" "scanner" "lp" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" "scanner" "lp" "video" ];
     shell = pkgs.fish;
   };
 

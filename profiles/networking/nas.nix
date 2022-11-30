@@ -18,13 +18,13 @@ in
 {
   fileSystems = {
 
-    "/mnt/nas/backup" = nasFsOpts // {
-      device = "[${secrets.nas.ip}]:/mnt/naspool1/backup";
-    };
+    # "/mnt/nas/backup" = nasFsOpts // {
+    #   device = "[${secrets.nas.ip}]:/mnt/naspool1/backup";
+    # };
 
-    "/mnt/nas/data" = nasFsOpts // {
-      device = "[${secrets.nas.ip}]:/mnt/naspool1/data";
-    };
+    # "/mnt/nas/data" = nasFsOpts // {
+    #   device = "[${secrets.nas.ip}]:/mnt/naspool1/data";
+    # };
 
   };
 

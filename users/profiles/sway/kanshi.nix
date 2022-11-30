@@ -1,6 +1,6 @@
-{ lib, pkgs, config, ...}: {
+{ lib, pkgs, config, ... }: {
   services.kanshi = {
-    enable = true;
+    enable = false;
     profiles = {
       docked = {
         outputs = [

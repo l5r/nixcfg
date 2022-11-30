@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   swayConfig = pkgs.writeText "greetd-sway-config" ''
+    # Fixes https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+    exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
     # `-l` activates layer-shell mode. Notice that `swaymsg exit` will run after gtkgreet.
     exec "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l -c sway; swaymsg exit"
 
@@ -23,6 +26,7 @@ in
 
   environment.etc."greetd/environments".text = ''
     sway
+    startsway
     fish
     bash
     startxfce4
