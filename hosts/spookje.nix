@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }: {
+{ lib, pkgs, config, modulesPath, ... }: {
   imports = [
     ../users/leander
     ../users/root
@@ -8,11 +8,15 @@
     ../modules/zfs.nix
     ../modules/applications.nix
     ../profiles/teams.nix
+
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  services.fwupd.enable = true;
 
   networking.networkmanager.enable = true;
   networking.hostId = "deadbeef";
@@ -39,8 +43,7 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_4;
-  boot.zfs.enableUnstable = true;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
   system.stateVersion = "20.09";
 

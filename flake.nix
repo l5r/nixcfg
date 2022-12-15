@@ -4,7 +4,7 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-22.05";
+      stable.url = "nixpkgs/nixos-22.11";
       home = {
         url = "github:nix-community/home-manager/release-22.05";
         inputs.nixpkgs.follows = "stable";
@@ -15,6 +15,15 @@
       };
       flake-utils-plus = {
         url = "github:gytis-ivaskevicius/flake-utils-plus";
+      };
+
+      impermanence.url = "github:nix-community/impermanence";
+      agenix = {
+        url = "github:yaxitech/ragenix";
+        inputs = {
+          nixpkgs.follows = "stable";
+          flake-utils.follows = "flake-utils-plus";
+        };
       };
 
       stylix = {
@@ -28,11 +37,20 @@
     inputs@{ self
     , flake-utils-plus
     , home
-    , stable
-    , unstable
+    , impermanence
     , nix-darwin
+    , stable
     , stylix
+    , unstable
+    , agenix
     }:
+    let
+      linuxModules = [
+        home.nixosModules.home-manager
+        stylix.nixosModules.stylix
+        impermanence.nixosModule
+      ];
+    in
     flake-utils-plus.lib.mkFlake {
       inherit self inputs;
 
@@ -40,6 +58,7 @@
       channels.nixpkgs = {
         input = stable;
         overlaysBuilder = channels: [
+          agenix.overlays.default
           (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
         ];
       };
@@ -48,14 +67,21 @@
       # Hosts
       #########
 
-      hosts.spookje.modules = [
-        home.nixosModules.home-manager
-        stylix.nixosModules.stylix
+      hosts.spookje.modules = linuxModules ++ [
         ./hosts/spookje.nix
       ];
 
+      hosts.storig.modules = [
+        ./hosts/storig.nix
+        impermanence.nixosModule
+      ];
+
+      hosts.niximg.modules = [
+        ./hosts/niximg.nix
+      ];
+
       hosts.ligma = {
-        system = flake-utils-plus.systems.aarch64-darwin;
+        system = flake-utils-plus.lib.system.aarch64-darwin;
         output = "darwinConfigurations";
         builder = nix-darwin.lib.darwinSystem;
         modules = [
@@ -64,5 +90,10 @@
         ];
       };
 
+      outputsBuilder = channels: {
+        devShell = channels.stable.mkShell {
+          packages = [ channels.nixpkgs.ragenix channels.nixpkgs.age ];
+        };
+      };
     };
 }

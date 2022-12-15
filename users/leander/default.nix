@@ -10,6 +10,9 @@ in
   users.users.leander = {
     uid = 1000;
     hashedPassword = secrets.leander.hashedPassword;
+    openssh = {
+      authorizedKeys = secrets.ssh.authorizedKeys;
+    };
     description = "default";
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" "scanner" "lp" "video" ];

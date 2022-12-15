@@ -35,7 +35,7 @@ in
 
       dataPaths = lib.mkOption {
         type = lib.types.listOf lib.types.path;
-        default = [];
+        default = [ ];
       };
 
       zfsPart = lib.mkOption {
@@ -50,11 +50,12 @@ in
     };
   };
 
-  config = let
-    dataPaths = lib.mkMerge (
-      [ cfg.dataPaths ] ++ [ (lib.mkIf cfg.defaultDataPaths defaultDataPaths) ]
-    );
-  in
+  config =
+    let
+      dataPaths = lib.mkMerge (
+        [ cfg.dataPaths ] ++ [ (lib.mkIf cfg.defaultDataPaths defaultDataPaths) ]
+      );
+    in
     lib.mkIf cfg.enable {
 
       link = {
