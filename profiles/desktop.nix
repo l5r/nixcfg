@@ -9,4 +9,9 @@
 
     ../modules/rootless.nix
   ];
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
 }

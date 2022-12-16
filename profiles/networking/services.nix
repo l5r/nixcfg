@@ -12,10 +12,6 @@ in
 
   programs.mosh.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    sshfs
-  ];
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     # SSH

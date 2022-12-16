@@ -50,8 +50,9 @@
         stylix.nixosModules.stylix
         impermanence.nixosModule
       ];
+      secrets = import ./secrets;
     in
-    flake-utils-plus.lib.mkFlake {
+    flake-utils-plus.lib.mkFlake rec {
       inherit self inputs;
 
       channelsConfig = { allowUnfree = true; };
@@ -91,8 +92,24 @@
       };
 
       outputsBuilder = channels: {
-        devShell = channels.stable.mkShell {
-          packages = [ channels.nixpkgs.ragenix channels.nixpkgs.age ];
+        devShell = channels.nixpkgs.mkShell {
+          packages = [
+            channels.nixpkgs.ragenix
+            channels.nixpkgs.age
+            channels.nixpkgs.git-crypt
+            channels.nixpkgs.colmena
+          ];
+        };
+      };
+
+      colmena = {
+        meta = {
+          nixpkgs = self.pkgs.x86_64-linux.stable;
+        };
+
+        storig = {
+          imports = hosts.storig.modules;
+          deployment.targetHost = secrets.ips.storig;
         };
       };
     };

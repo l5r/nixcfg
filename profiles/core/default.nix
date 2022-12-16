@@ -26,11 +26,5 @@ in
 
   users.mutableUsers = false;
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-
-  nix.autoOptimiseStore = true;
 
 }

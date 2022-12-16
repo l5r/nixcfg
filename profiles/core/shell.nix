@@ -1,5 +1,12 @@
 { config, lib, pkgs, ... }: {
 
+  programs.ssh = {
+    startAgent = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+    '';
+  };
+
   environment = {
 
     systemPackages = with pkgs; [
@@ -12,11 +19,14 @@
       exa
       fd
       git
+      git-crypt
       httpie
       jq
       moreutils
+      mosh
       ranger
       ripgrep
+      sshfs
       whois
     ] ++ lib.optionals stdenv.isLinux [
       gotop
@@ -30,8 +40,8 @@
       let
         ifSudo = lib.mkIf (
           lib.hasAttr "sudo" config.security &&
-	  config.security.sudo.enable
-	);
+          config.security.sudo.enable
+        );
       in
       {
         # quick cd

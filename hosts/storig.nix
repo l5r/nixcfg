@@ -11,7 +11,9 @@ in
   imports = [
     ../modules/rootless.nix
 
+    ../profiles/core
     ../profiles/networking
+
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
@@ -126,7 +128,7 @@ in
   swapDevices =
     [{ device = "/dev/disk/by-uuid/0883dbcc-a1e9-4026-bde1-3dd92c7f2d8c"; }];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "r8169" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];

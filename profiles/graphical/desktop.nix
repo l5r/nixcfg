@@ -1,13 +1,10 @@
 { config, pkgs, ... }:
 let
-  firefoxes = map
-    (wayland:
-      pkgs.firefox.override {
-        forceWayland = wayland;
+  firefox =
+    pkgs.firefox.override
+      {
         pkcs11Modules = [ pkgs.eid-mw ];
-      }
-    )
-    [ true false ];
+      };
 in
 {
 
@@ -16,7 +13,8 @@ in
     nm-applet.enable = true;
   };
 
-  environment.systemPackages = with pkgs; firefoxes ++ [
+  environment.systemPackages = with pkgs; [
+    firefox
     kitty
     lxtask
     pantheon.elementary-files

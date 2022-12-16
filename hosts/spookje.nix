@@ -5,7 +5,7 @@
 
     ../profiles/desktop.nix
     ../profiles/devel/default.nix
-    ../modules/zfs.nix
+    ../modules/zfs.old.nix
     ../modules/applications.nix
     ../profiles/teams.nix
 
@@ -36,8 +36,6 @@
   #   pkgs.rocm-opencl-icd
   #   pkgs.rocm-opencl-runtime
   # ];
-
-  nix.maxJobs = lib.mkDefault 12;
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
