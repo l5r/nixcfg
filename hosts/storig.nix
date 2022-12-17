@@ -13,6 +13,7 @@ in
 
     ../profiles/core
     ../profiles/networking
+    ../profiles/nas
 
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
@@ -29,9 +30,6 @@ in
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.zfsSupport = true;
   boot.loader.grub.device = "nodev";
-  # boot.loader.grub.devices = [
-  #   "/dev/disk/by-id/ata-Crucial_CT275MX300SSD1_164114383BC8"
-  # ];
 
   boot.initrd.network = {
     enable = true;

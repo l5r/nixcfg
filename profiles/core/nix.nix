@@ -1,4 +1,4 @@
-{ system, config, lib, pkgs, inputs ? false, ... }: {
+{ system, config, lib, pkgs, inputs, ... }: {
 
   nix = {
     gc.automatic = true;
