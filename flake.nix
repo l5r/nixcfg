@@ -87,7 +87,7 @@
         builder = nix-darwin.lib.darwinSystem;
         modules = [
           home.darwinModules.home-manager
-          ./hosts/ligma.nix
+          ./darwinConfigurations/ligma.nix
         ];
       };
 

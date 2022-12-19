@@ -26,6 +26,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  # services.nix-daemon.enable = true;
+  # nixpkgs.config.allowUnfree = true;
+  services.nix-daemon.enable = lib.optionalAttrs pkgs.stdenv.isDarwin true;
 }

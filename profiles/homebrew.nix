@@ -1,7 +1,9 @@
 { config, pkgs, lib, ... }: {
   homebrew = {
-    enable = true;
-    cleanup = "uninstall";
+    onActivation = {
+      enable = true;
+      cleanup = "uninstall";
+    };
     brewPrefix = "/opt/homebrew/bin";
 
     casks = [
@@ -13,16 +15,16 @@
       "libreoffice"
       "microsoft-office"
       "microsoft-teams"
-      "musicbrainz-picard"
+      # "musicbrainz-picard"
       "nextcloud"
       # "openzfs"
-      "playonmac"
+      # "playonmac"
       "remarkable"
       "spotify"
       "steam"
       "vimr"
       "vlc"
-      "webtorrent"
+      # "webtorrent"
       "zoom"
     ];
 
