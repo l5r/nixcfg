@@ -68,6 +68,11 @@
       # Hosts
       #########
 
+      hostDefauts.extraArgs = {
+        channels = self.channels;
+        inherit inputs;
+      };
+
       hosts.spookje.modules = linuxModules ++ [
         ./hosts/spookje.nix
       ];
@@ -92,6 +97,8 @@
       };
 
       outputsBuilder = channels: {
+        inherit channels;
+
         devShell = channels.nixpkgs.mkShell {
           packages = [
             channels.nixpkgs.ragenix
@@ -104,7 +111,11 @@
 
       colmena = {
         meta = {
-          nixpkgs = self.pkgs.x86_64-linux.stable;
+          nixpkgs = self.channels.x86_64-linux.nixpkgs;
+          specialArgs = {
+            channels = self.channels;
+            inherit inputs;
+          };
         };
 
         storig = {

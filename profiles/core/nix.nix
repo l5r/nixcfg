@@ -1,4 +1,4 @@
-{ system, config, lib, pkgs, inputs, options, ... }: {
+{ config, lib, pkgs, inputs, channels, options, ... }: {
 
   nix = {
     gc.automatic = true;
@@ -19,7 +19,7 @@
       nixpkgs = {
         from = {
           type = "indirect";
-          id = "nixpkgspin";
+          id = "nixpkgs";
         };
         flake = inputs.stable;
       };
