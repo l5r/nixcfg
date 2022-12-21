@@ -1,4 +1,4 @@
-{ system, config, lib, pkgs, inputs, ... }: {
+{ system, config, lib, pkgs, inputs, options, ... }: {
 
   nix = {
     gc.automatic = true;
@@ -27,5 +27,7 @@
   };
 
   # nixpkgs.config.allowUnfree = true;
-  services.nix-daemon.enable = lib.optionalAttrs pkgs.stdenv.isDarwin true;
+  services = lib.optionalAttrs (builtins.hasAttr "nix-daemon" options.services) {
+    nix-daemon.enable = lib.optionalAttrs pkgs.stdenv.isDarwin true;
+  };
 }
