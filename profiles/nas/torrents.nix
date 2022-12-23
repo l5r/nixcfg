@@ -113,6 +113,7 @@ in
           peer-port = secrets.torrentPort;
           rpc-whitelist = "127.0.0.1,10.1.1.*,192.168.1.*";
           rpc-bind-address = "10.1.1.2";
+          dht-enabled = false;
         };
       };
 

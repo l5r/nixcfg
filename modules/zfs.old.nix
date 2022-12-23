@@ -29,11 +29,4 @@ in
 
   services.zfs.autoScrub.enable = true;
   services.zfs.autoSnapshot.enable = true;
-  services.zfs.autoReplication = {
-    enable = true;
-    recursive = true;
-    followDelete = false;
-    localFilesystem = config.fileSystems."/home".device;
-    remoteFilesystem = "naspool1/backup/zfs/${config.networking.hostName}";
-  } // secrets.zfs.replicationCredentials;
 }
