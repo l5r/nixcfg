@@ -49,6 +49,7 @@
         home.nixosModules.home-manager
         stylix.nixosModules.stylix
         impermanence.nixosModule
+        agenix.nixosModules.age
       ];
       secrets = import ./secrets;
     in
@@ -80,6 +81,7 @@
       hosts.storig.modules = [
         ./hosts/storig.nix
         impermanence.nixosModule
+        agenix.nixosModules.age
       ];
 
       hosts.niximg.modules = [
@@ -102,7 +104,7 @@
         devShell = channels.nixpkgs.mkShell {
           packages = [
             channels.nixpkgs.ragenix
-            channels.nixpkgs.age
+            channels.nixpkgs.rage
             channels.nixpkgs.git-crypt
             channels.nixpkgs.colmena
           ];

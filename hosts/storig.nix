@@ -18,6 +18,8 @@ in
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  age.secrets.wireguard-private.file = ../secrets/storig-wireguard-private.age;
+
   users.users.root = userConfig;
   # users.users.leander = userConfig;
 
@@ -52,6 +54,7 @@ in
   networking.useDHCP = true;
   networking.networkmanager.enable = lib.mkForce false;
   networking.hostId = "50fb60de";
+  systemd.network.wait-online.extraArgs = [ "-i" "enp3s0" ];
 
   rootless = {
     enable = true;
@@ -105,23 +108,7 @@ in
   };
 
 
-  fileSystems."/media/naspool1" = {
-    device = "naspool1";
-    fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
-  };
-
-  fileSystems."/media/naspool1/media" = {
-    device = "naspool1/media";
-    fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
-  };
-
-  fileSystems."/media/naspool1/data" = {
-    device = "naspool1/data";
-    fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
-  };
+  boot.zfs.extraPools = [ "naspool1" ];
 
   swapDevices =
     [{ device = "/dev/disk/by-uuid/0883dbcc-a1e9-4026-bde1-3dd92c7f2d8c"; }];

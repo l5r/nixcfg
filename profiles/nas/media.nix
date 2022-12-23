@@ -1,6 +1,7 @@
 { lib, pkgs, ... }: {
   imports = [
     ./beets.nix
+    ./torrents.nix
   ];
 
   users.users.media = {
