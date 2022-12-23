@@ -7,8 +7,6 @@ in
 {
   systemd.tmpfiles.rules = [
     "d ${torrentDir} 0775 media media"
-    # "d ${torrentDir}/Done 0775 media media"
-    # "d ${torrentDir}/Progress 0775 media media"
   ];
 
   age.secrets.wireguard-private = {
@@ -47,6 +45,17 @@ in
     };
   };
 
+  systemd.services."container@torrent" =
+    let
+      interfaceService = "sys-subsystem-net-devices-wg\\x2dtorrent.device";
+    in
+    {
+      requires = [ interfaceService "systemd-networkd-wait-online.service" ];
+      after = [ interfaceService "systemd-networkd-wait-online.service" ];
+    };
+
+  networking.firewall.allowedTCPPorts = [ 9091 ];
+
   containers.torrent = {
 
     bindMounts."${torrentDir}" = {
@@ -59,10 +68,14 @@ in
 
     privateNetwork = true;
     interfaces = [ vpnInterface ];
+    extraVeths.rpc = {
+      hostAddress = "10.1.1.1";
+      localAddress = "10.1.1.2";
+
+      forwardPorts = [{ hostPort = 9091; }];
+    };
 
     config = { lib, pkgs, ... }: {
-      services.transmission.enable = false;
-
       networking.useHostResolvConf = false;
       systemd.network = {
         enable = true;
@@ -74,16 +87,43 @@ in
         };
       };
 
+      system.activationScripts.remove-default-route-via-host = ''
+        ${pkgs.iproute2}/bin/ip route del default via 10.1.1.1 || true
+      '';
+
+      users.groups.media.gid = config.users.groups.media.gid;
+      users.users.transmission = {
+        uid = lib.mkForce config.users.users.transmission.uid;
+        isSystemUser = true;
+      };
+
+      services.transmission = {
+        enable = true;
+        group = "media";
+        home = torrentDir;
+        downloadDirPermissions = "775";
+        openPeerPorts = true;
+        openRPCPort = true;
+
+        settings = {
+          download-dir = "${torrentDir}/Complete";
+          incomplete-dir = "${torrentDir}/Partial";
+          watch-dir = "${torrentDir}/Watch";
+          watch-dir-enabled = true;
+          peer-port = secrets.torrentPort;
+          rpc-whitelist = "127.0.0.1,10.1.1.*,192.168.1.*";
+          rpc-bind-address = "10.1.1.2";
+        };
+      };
+
       system.stateVersion = "22.11";
     };
   };
 
-  systemd.services."container@torrent" =
-    let
-      interfaceService = "sys-subsystem-net-devices-wg\\x2dtorrent.device";
-    in
-    {
-      requires = [ interfaceService ];
-      after = [ interfaceService ];
-    };
+  ids.uids.transmission = lib.mkForce 2001;
+  users.users.transmission = {
+    uid = config.ids.uids.transmission;
+    isSystemUser = true;
+    group = "media";
+  };
 }

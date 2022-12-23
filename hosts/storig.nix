@@ -18,8 +18,6 @@ in
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  age.secrets.wireguard-private.file = ../secrets/storig-wireguard-private.age;
-
   users.users.root = userConfig;
   # users.users.leander = userConfig;
 
@@ -48,6 +46,9 @@ in
       "/etc/ssh/ssh_host_ed25519_key.pub"
     ];
   };
+
+  age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
+  age.secrets.wireguard-private.file = ../secrets/storig-wireguard-private.age;
 
   services.fwupd.enable = true;
 
