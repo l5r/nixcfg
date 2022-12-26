@@ -56,6 +56,10 @@ in
   networking.networkmanager.enable = lib.mkForce false;
   networking.hostId = "50fb60de";
   systemd.network.wait-online.extraArgs = [ "-i" "enp3s0" ];
+  systemd.network.networks."10-enp3s0" = {
+    matchConfig.Name = "enp3s0";
+    address = [ "192.168.1.200" ];
+  };
 
   rootless = {
     enable = true;
@@ -122,6 +126,16 @@ in
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+    ];
+  };
 
   system.stateVersion = "22.11";
 }

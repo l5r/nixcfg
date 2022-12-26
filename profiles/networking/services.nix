@@ -40,4 +40,8 @@ in
     joinNetworks = secrets.zerotierone.joinNetworks;
   };
 
+  networking.hosts = {
+    "${secrets.ips.storig}" = [ "storig" "storig.local" "*.storig" "*.storig.local" ];
+  };
+
 }

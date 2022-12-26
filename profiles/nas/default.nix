@@ -1,3 +1,3 @@
 { lib, pkgs, ... }: {
-  imports = [ ./media.nix ./fileshare.nix ];
+  imports = [ ./media.nix ./fileshare.nix ./nginx.nix ];
 }
