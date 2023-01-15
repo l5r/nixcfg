@@ -1,0 +1,7 @@
+--- /src/slskd/Core/Options.cs
++++ /src/slskd/Core/Options.cs
+@@ -1393,4 +1393,2 @@
+             [StringLength(255, MinimumLength = 1)]
+-            [DirectoryExists]
+-            [DirectoryIsRelative]
+             [RequiresRestart]

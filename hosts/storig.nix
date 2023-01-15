@@ -126,6 +126,7 @@ in
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -133,7 +134,7 @@ in
       vaapiIntel
       vaapiVdpau
       libvdpau-va-gl
-      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      intel-ocl # OpenCL support
     ];
   };
 

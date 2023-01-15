@@ -1,11 +1,11 @@
 { lib, pkgs, config, ... }:
-let
-  mediaDir = "/media/naspool1/media";
+let mediaDir = "/media/naspool1/media";
 in
 {
   imports = [
     ./beets.nix
     ./torrents.nix
+    ./slskd.nix
     ./arr.nix
   ];
 
@@ -34,6 +34,17 @@ in
     "d ${mediaDir}/TV/ 0775 media media"
 
     "d ${mediaDir}/.local/jellyfin 0775 jellyfin media"
-    "L /var/lib/jellyfin/ 0775 jellyfin media - ${mediaDir}/.local/jellyfin/"
+    "L /var/lib/jellyfin/ 0700 jellyfin media - ${mediaDir}/.local/jellyfin/"
   ];
+
+  fileSystems."/var/lib/jellyfin" = {
+    device = "${mediaDir}/.local/jellyfin";
+    noCheck = true;
+    options = [
+      "bind"
+      "x-gvs-hide"
+      "x-systemd.required-by=jellyfin.service"
+      "x-systemd.before=jellyfin.service"
+    ];
+  };
 }

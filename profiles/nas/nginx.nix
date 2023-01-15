@@ -26,6 +26,7 @@ in
           "/sonarr" = proxy "sonarr" 8989;
           "/jellyfin" = proxy "jellyfin" 8096;
 
+          "/slskd".proxyPass = "http://10.1.1.2:5000/slskd";
           "/transmission".proxyPass = "http://10.1.1.2:9091/transmission";
         };
     };

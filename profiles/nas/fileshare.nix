@@ -3,10 +3,55 @@ let
   secrets = import ../../secrets;
 in
 {
+  networking.firewall.allowedTCPPorts = [
+    # NFS
+    2049
+    # wssd
+    5357
+  ];
+  networking.firewall.allowedUDPPorts = [
+    # wssd
+    3702
+  ];
+
   services.nfs.server = {
     enable = true;
     hostName = secrets.ips.storig;
   };
 
-  networking.firewall.allowedTCPPorts = [ 2049 ];
+  services.samba-wsdd.enable = true;
+  services.samba = {
+    enable = true;
+    openFirewall = true;
+    securityType = "user";
+    extraConfig = ''
+      hosts allow = 192.168.1.0/24 172.24.0.0/16 127.0.0.1 ::1
+      hosts deny = 0.0.0.0/0
+      interfaces = 192.168.1.0/24 172.24.0.0/16
+      # server smb encrypt = no
+      server max protocol = SMB3
+      server min protocol = SMB3_00
+      map to guest = bad user
+      guest account = media
+
+      server string = storig
+      netbios name = storig
+
+      use sendfile = yes
+      fruit:copyfile = yes
+    '';
+
+    shares = {
+      media = {
+        path = "/media/naspool1/media";
+        browseable = "yes";
+        "read only" = "yes";
+        "guest ok" = "yes";
+        "public" = "yes";
+        "force user" = "media";
+        "force group" = "media";
+        "fruit:aapl" = "yes";
+      };
+    };
+  };
 }

@@ -62,6 +62,75 @@
         overlaysBuilder = channels: [
           agenix.overlays.default
           (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
+          (final: prev: prev.lib.recursiveUpdate prev
+            (import ./pkgs { inherit (final) callPackage; }))
+          (final: prev: {
+            vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
+          })
+          (final: prev: {
+            python3 = prev.python3.override {
+              packageOverrides = pFinal: pPrev: {
+                sqlalchemy-json = final.callPackage ./pkgs/sqlalchemy-json.nix
+                  { python3Packages = pFinal; };
+                aubio = pPrev.aubio.overridePythonAttrs (prev: {
+                  nativeBuildInputs = prev.buildInputs ++ [
+                    final.pkg-config
+                  ];
+                  propagatedBuildInputs =
+                    (prev.propagatedBuildInputs or [ ]) ++
+                    [ final.ffmpeg.out.dev ];
+                  # version = "0.5.0-beta";
+                  # src = final.fetchFromGitHub {
+                  #   owner = "aubio";
+                  #   repo = "aubio";
+                  #   rev = "8a05420e5dd8c7b8b2447f82dc919765876511b3";
+                  #   sha256 = "um+9EvM/nMngn4jaRK44ACIe2TDhYzmQc4t4myBcj8Y=";
+                  # };
+                });
+              };
+            };
+            python3Packages = final.python3.pkgs;
+          })
+          (final: prev:
+            let
+              callBeetsPlugin = path: final.callPackage path {
+                beets = final.beetsPackages.beets-minimal;
+              };
+            in
+            prev.lib.recursiveUpdate prev {
+              beetsPackages.yt-dlp = callBeetsPlugin ./pkgs/beets-yt-dlp.nix;
+              beetsPackages.bpmanalyser = callBeetsPlugin ./pkgs/beets-bpmanalyser.nix;
+            })
+          (final: prev: {
+            beetsPackages = prev.beetsPackages // {
+              beets-stable = prev.beetsPackages.beets-stable.override {
+                pluginOverrides = {
+                  yt-dlp = {
+                    enable = true;
+                    propagatedBuildInputs = [
+                      final.beetsPackages.yt-dlp
+                    ];
+                  };
+                  bpmanalyser = {
+                    enable = true;
+                    propagatedBuildInputs = [
+                      final.beetsPackages.bpmanalyser
+                      final.aubio
+                    ];
+                  };
+                };
+              };
+            };
+            beets = final.beetsPackages.beets-stable;
+          })
+          (final: prev: prev.lib.recursiveUpdate prev {
+            beetsPackages.beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
+              (prev: {
+                patches = prev.patches ++ [
+                  ./patches/beets-lossless-codecs.patch
+                ];
+              });
+          })
         ];
       };
 
@@ -98,8 +167,16 @@
         ];
       };
 
+      ###########
+      # Outputs #
+      ###########
       outputsBuilder = channels: {
         inherit channels;
+
+        packages = {
+          inherit (channels.nixpkgs) ffmpegfs;
+          inherit (channels.nixpkgs.beetsPackages) beets-yt-dlp beets-bpmanalyser;
+        };
 
         devShell = channels.nixpkgs.mkShell {
           packages = [

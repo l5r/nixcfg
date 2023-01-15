@@ -1,0 +1,11 @@
+--- /beetsplug/convert.py
++++ /beetsplug/convert.py
+@@ -41,7 +41,7 @@
+     'vorbis': 'ogg',
+ }
+ 
+-LOSSLESS_FORMATS = ['ape', 'flac', 'alac', 'wav', 'aiff']
++LOSSLESS_FORMATS = ['ape', 'flac', 'alac', 'wav', 'wave', 'aiff']
+ 
+ 
+ def replace_ext(path, ext):

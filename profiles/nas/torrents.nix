@@ -5,9 +5,12 @@ let
   vpnInterface = "wg-torrent";
 in
 {
+  imports = [ ../../modules/wg-container.nix ];
+
   systemd.tmpfiles.rules = [
     "d ${torrentDir} 0775 media media"
   ];
+  networking.firewall.allowedTCPPorts = [ 9091 ];
 
   age.secrets.wireguard-private = {
     mode = "440";
@@ -15,49 +18,52 @@ in
     group = "systemd-network";
   };
 
-  systemd.network = {
+  wg-container = {
     enable = true;
-    wait-online = {
-      anyInterface = true;
-      ignoredInterfaces = [ vpnInterface ];
-    };
-    netdevs."10-${vpnInterface}" = {
-      netdevConfig = {
-        Kind = "wireguard";
-        Name = vpnInterface;
-        MTUBytes = "1400";
-      };
-      wireguardConfig = {
-        PrivateKeyFile = config.age.secrets.wireguard-private.path;
-      };
-      wireguardPeers = [
-        {
-          wireguardPeerConfig = secrets.wireguardPeerConfig // {
-            AllowedIPs = "0.0.0.0/0,::/0";
-          };
-        }
-      ];
-    };
-    networks."40-${vpnInterface}" = {
+    containers.torrent = {
+      enable = true;
+      privateKeyFile = config.age.secrets.wireguard-private.path;
+      wireguardPeerConfig = secrets.wireguardPeerConfig;
+      wireguardIPs = secrets.wireguardIPs;
       dns = [ "10.64.0.1" ];
-      address = secrets.wireguardIPs;
-      matchConfig.Name = vpnInterface;
+
+      config = { lib, pkgs, ... }: {
+        system.activationScripts.remove-default-route-via-host = ''
+          ${pkgs.iproute2}/bin/ip route del default via 10.1.1.1 || true
+        '';
+
+        users.groups.media.gid = config.users.groups.media.gid;
+        users.users.transmission = {
+          uid = lib.mkForce config.users.users.transmission.uid;
+          isSystemUser = true;
+        };
+
+        services.transmission = {
+          enable = true;
+          group = "media";
+          home = torrentDir;
+          downloadDirPermissions = "775";
+          openPeerPorts = true;
+          openRPCPort = true;
+
+          settings = {
+            download-dir = "${torrentDir}/Complete";
+            incomplete-dir = "${torrentDir}/Partial";
+            watch-dir = "${torrentDir}/Watch";
+            watch-dir-enabled = true;
+            peer-port = secrets.torrentPort;
+            rpc-whitelist = "127.0.0.1,10.1.1.*,192.168.1.*,172.24.*.*";
+            rpc-host-whitelist = "storig";
+            rpc-bind-address = "10.1.1.2";
+            dht-enabled = false;
+          };
+        };
+        system.stateVersion = "22.11";
+      };
     };
   };
 
-  systemd.services."container@torrent" =
-    let
-      interfaceService = "sys-subsystem-net-devices-wg\\x2dtorrent.device";
-    in
-    {
-      requires = [ interfaceService "systemd-networkd-wait-online.service" ];
-      after = [ interfaceService "systemd-networkd-wait-online.service" ];
-    };
-
-  networking.firewall.allowedTCPPorts = [ 9091 ];
-
   containers.torrent = {
-
     bindMounts."${torrentDir}" = {
       hostPath = torrentDir;
       isReadOnly = false;
@@ -66,59 +72,11 @@ in
     ephemeral = true;
     autoStart = true;
 
-    privateNetwork = true;
-    interfaces = [ vpnInterface ];
     extraVeths.rpc = {
       hostAddress = "10.1.1.1";
       localAddress = "10.1.1.2";
 
       forwardPorts = [{ hostPort = 9091; }];
-    };
-
-    config = { lib, pkgs, ... }: {
-      networking.useHostResolvConf = false;
-      systemd.network = {
-        enable = true;
-        networks."40-${vpnInterface}" = {
-          dns = [ "10.64.0.1" ];
-          matchConfig.Name = vpnInterface;
-          address = secrets.wireguardIPs;
-          gateway = [ "0.0.0.0" "::" ];
-        };
-      };
-
-      system.activationScripts.remove-default-route-via-host = ''
-        ${pkgs.iproute2}/bin/ip route del default via 10.1.1.1 || true
-      '';
-
-      users.groups.media.gid = config.users.groups.media.gid;
-      users.users.transmission = {
-        uid = lib.mkForce config.users.users.transmission.uid;
-        isSystemUser = true;
-      };
-
-      services.transmission = {
-        enable = true;
-        group = "media";
-        home = torrentDir;
-        downloadDirPermissions = "775";
-        openPeerPorts = true;
-        openRPCPort = true;
-
-        settings = {
-          download-dir = "${torrentDir}/Complete";
-          incomplete-dir = "${torrentDir}/Partial";
-          watch-dir = "${torrentDir}/Watch";
-          watch-dir-enabled = true;
-          peer-port = secrets.torrentPort;
-          rpc-whitelist = "127.0.0.1,10.1.1.*,192.168.1.*,172.24.*.*";
-          rpc-host-whitelist = "storig";
-          rpc-bind-address = "10.1.1.2";
-          dht-enabled = false;
-        };
-      };
-
-      system.stateVersion = "22.11";
     };
   };
 
