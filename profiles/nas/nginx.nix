@@ -22,6 +22,7 @@ in
         {
           "/jackett" = proxy "jackett" 9117;
           "/lidarr" = proxy "lidarr" 8686;
+          "/owntone" = proxy "" 3689;
           "/radarr" = proxy "radarr" 7878;
           "/sonarr" = proxy "sonarr" 8989;
           "/jellyfin" = proxy "jellyfin" 8096;

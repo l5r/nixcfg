@@ -5,6 +5,9 @@
   };
   betanin = callPackage ./betanin.nix { };
   ffmpegfs = callPackage ./ffmpegfs.nix { };
+  owntone = callPackage ./owntone.nix { };
+  owntoneMinimal = callPackage ./owntone.nix { withDefault = false; };
+  owntoneFull = callPackage ./owntone.nix { withAll = true; };
   slskd = callPackage ./slskd { };
   sqlalchemy-json = callPackage ./sqlalchemy-json.nix { };
 }

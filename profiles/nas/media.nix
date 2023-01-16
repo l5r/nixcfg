@@ -4,6 +4,7 @@ in
 {
   imports = [
     ./beets.nix
+    ./owntone.nix
     ./torrents.nix
     ./slskd.nix
     ./arr.nix
