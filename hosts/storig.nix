@@ -46,6 +46,7 @@ in
       "/etc/ssh/ssh_host_ed25519_key.pub"
     ];
   };
+  systemd.services.sshd.wantedBy = [ "emergency.target" ];
 
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   age.secrets.wireguard-private.file = ../secrets/storig-wireguard-private.age;
@@ -98,6 +99,28 @@ in
     fsType = "zfs";
     options = [ "zfsutil" "x-mount.mkdir" ];
     neededForBoot = true;
+  };
+
+  systemd.services.zfs-load-key-naspool1 = {
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      ExecStart = "${pkgs.zfs}/bin/zfs load-key -r naspool1";
+    };
+    requires = [ "persist.mount" ];
+    after = [ "persist.mount" ];
+    before = [ "zfs-mount.service" ];
+  };
+
+  fileSystems."/media/naspool1" = {
+    device = "naspool1";
+    fsType = "zfs";
+    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
+  };
+  fileSystems."/media/naspool1/media" = {
+    device = "naspool1/media";
+    fsType = "zfs";
+    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
   };
 
   fileSystems."/boot" = {

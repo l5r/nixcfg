@@ -34,17 +34,24 @@ in
     "d ${mediaDir}/TV/ 0775 media media"
 
     "d ${mediaDir}/.local/jellyfin 0775 jellyfin media"
-    "L /var/lib/jellyfin/ 0700 jellyfin media - ${mediaDir}/.local/jellyfin/"
+    # "L /var/lib/jellyfin/ 0700 jellyfin media - ${mediaDir}/.local/jellyfin/"
   ];
 
-  fileSystems."/var/lib/jellyfin" = {
-    device = "${mediaDir}/.local/jellyfin";
-    noCheck = true;
-    options = [
-      "bind"
-      "x-gvs-hide"
-      "x-systemd.required-by=jellyfin.service"
-      "x-systemd.before=jellyfin.service"
-    ];
-  };
+  systemd.mounts =
+    let
+      requires = [ "media-naspool1.mount" "media-naspool1-media.mount" "media-naspool1-media-iTunes.mount" ];
+    in
+    [{
+      what = "${mediaDir}/.local/jellyfin";
+      where = "/var/lib/jellyfin";
+      requires = requires;
+      # after = requires;
+      requiredBy = [ "jellyfin.service" ];
+      before = [ "jellyfin.service" ];
+      options = "bind,x-gvs-hide";
+    }];
+
+  systemd.automounts = [{
+    where = "/var/lib/jellyfin";
+  }];
 }

@@ -115,7 +115,7 @@ in
 
   fileSystems."/media/naspool1/media/iTunes" = {
     device = "${pkgs.ffmpegfs}/bin/ffmpegfs#${musicDirectory}";
-    depends = [ "/dev/fuse" "/media/naspool1/media" ];
+    depends = [ "/dev/fuse" "/media/naspool1" "/media/naspool1/media" ];
     fsType = "fuse";
     options = [
       "allow_other"
@@ -126,6 +126,7 @@ in
       "oldnamescheme=1"
       "include_extensions=flac\\,ogg\\,opus"
       "nofail"
+      "x-systemd.requires=media-naspool1-media.mount"
     ];
   };
 
