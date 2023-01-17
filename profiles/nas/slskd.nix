@@ -18,6 +18,7 @@ in
 
   wg-container.containers.torrent.config = { ... }: {
     imports = [ ../../modules/slskd.nix ];
+    networking.firewall.allowedTCPPorts = [ secrets.soulseekPort ];
     services.slskd = {
       enable = true;
       package = pkgs.slskd;
