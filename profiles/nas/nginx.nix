@@ -4,7 +4,22 @@ let
 
   upstreams = {
     jellyfin.port = 8096;
+    jackett.port = 9117;
+    lidarr.port = 8686;
+    owntone.port = 3689;
+    radarr.port = 7878;
+    sonarr.port = 8989;
+    slskd = { host = "10.1.1.2"; port = 5000; };
+    transmission = { host = "10.1.1.2"; port = 9091; };
   };
+
+  defaultUpstreamSettings = {
+    internal = true;
+    external = false;
+    host = "127.0.0.1";
+  };
+
+  upstreamsWithDefaults = lib.mapAttrs (_: v: defaultUpstreamSettings // v) upstreams;
 
   upstreamToVirtualHostConfig =
     { host ? "127.0.0.1", port, ... }: {
@@ -14,8 +29,7 @@ let
       };
     };
 
-  upstreamToHostnames = config': lib.flatten (
-    let config = { internal = true; external = false; } // config'; in
+  upstreamToHostnames = config: lib.flatten (
     lib.mapAttrsToList (name: value: lib.optional config.${name} value)
       secrets.virtualHostnames
   );
@@ -27,7 +41,7 @@ let
       })
       (upstreamToHostnames config);
 
-  virtualHostList = lib.flatten (lib.mapAttrsToList upstreamToVirtualHosts upstreams);
+  virtualHostList = lib.flatten (lib.mapAttrsToList upstreamToVirtualHosts upstreamsWithDefaults);
 in
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
@@ -39,32 +53,50 @@ in
 
     virtualHosts = lib.mkMerge (virtualHostList ++ [{
       "storig" = {
+        serverAliases = [
+          secrets.virtualHostnames.internal.hostname
+          secrets.ips.storig
+        ];
+        listen = [
+          { port = 80; addr = "127.0.0.1"; }
+          { port = 80; addr = secrets.ips.storig; }
+        ];
+      };
+      ${secrets.virtualHostnames.external.hostname} = {
         default = true;
-        locations =
-          let
-            proxy = name: port: {
-              proxyPass = "http://127.0.0.1:" + toString (port) + "/${name}";
-              proxyWebsockets = true;
-            };
-          in
-          {
-            "/jackett" = proxy "jackett" 9117;
-            "/lidarr" = proxy "lidarr" 8686;
-            "/owntone" = proxy "" 3689;
-            "/radarr" = proxy "radarr" 7878;
-            "/sonarr" = proxy "sonarr" 8989;
-            "/jellyfin" = proxy "jellyfin" 8096;
-
-            "/slskd".proxyPass = "http://10.1.1.2:5000/slskd";
-            "/transmission".proxyPass = "http://10.1.1.2:9091/transmission";
-          };
+        listen = [
+          { port = 80; addr = "127.0.0.1"; }
+        ];
       };
     }]);
   };
 
+  age.secrets.cloudflared-tunnel-external-credentials = {
+    file = ../../secrets/cloudflared-tunnel-external-credentials.age;
+    mode = "0400";
+    owner = "cloudflared";
+    group = "cloudflared";
+  };
+
   services.cloudflared = {
     enable = true;
-    tunnels = { };
+    tunnels.${secrets.cloudflaredTunnelID} = {
+      credentialsFile = config.age.secrets.cloudflared-tunnel-external-credentials.path;
+      default = "http_status:404";
+      ingress =
+        let
+          hostname = secrets.virtualHostnames.external.hostname;
+          upstreamsExternal = lib.filterAttrs (n: v: v.external) upstreamsWithDefaults;
+          mkUpstreamIngress = name: { host, port, ... }: {
+            "${name}.${hostname}" = "http://${host}:${port}";
+          };
+          ingresses =
+            (lib.mapAttrsToList mkUpstreamIngress upstreamsExternal) ++ [{
+              ${hostname} = "http://localhost";
+            }];
+        in
+        lib.mkMerge ingresses;
+    };
   };
 
   age.secrets.acme-credentials = {
