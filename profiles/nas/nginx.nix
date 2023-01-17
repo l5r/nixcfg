@@ -62,6 +62,11 @@ in
     }]);
   };
 
+  services.cloudflared = {
+    enable = true;
+    tunnels = { };
+  };
+
   age.secrets.acme-credentials = {
     file = ../../secrets/acme-credentials.age;
     mode = "0400";

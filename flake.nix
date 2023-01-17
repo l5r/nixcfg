@@ -149,6 +149,7 @@
 
       hosts.storig.modules = [
         ./hosts/storig.nix
+        "${inputs.unstable}/nixos/modules/services/networking/cloudflared.nix"
         impermanence.nixosModule
         agenix.nixosModules.age
       ];
