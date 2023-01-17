@@ -102,6 +102,10 @@ in
       requires = [ "network.target" "local-fs.target" "avahi-daemon.socket" ];
       after = [ "network.target" ];
 
+      unitConfig = {
+        StartLimitInterval = 600;
+      };
+
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/owntone -f -c ${configFile}";
         MemoryMax = "256M";
@@ -110,7 +114,6 @@ in
         Restart = "on-failure";
         RestartSec = 5;
         StartLimitBurst = 10;
-        StartLimitInterval = 600;
 
         User = cfg.user;
         Group = cfg.group;
