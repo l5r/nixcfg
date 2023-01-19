@@ -87,9 +87,9 @@ in
 
   config = lib.mkIf cfg.enable {
     systemd.tmpfiles.rules = [
-      "d '${cfg.appDir}' 0700 ${cfg.user} ${cfg.group} - -"
+      "d '${cfg.appDir}' 0700 ${cfg.user} ${cfg.group} -"
       # Not strictly necessary, but may be useful
-      "L+ '${cfg.appDir}/slskd.yml' 0700 ${cfg.user} ${cfg.group} - - '${configFile}'"
+      "L+ '${cfg.appDir}/slskd.yml' 0700 ${cfg.user} ${cfg.group} - '${configFile}'"
     ];
 
     systemd.services.slskd = {
