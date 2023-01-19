@@ -2,73 +2,69 @@
 let
   secrets = import ../../secrets;
 
-  upstreams = {
-    jellyfin.port = 8096;
-    jackett.port = 9117;
-    lidarr.port = 8686;
-    owntone.port = 3689;
-    radarr.port = 7878;
-    sonarr.port = 8989;
-    slskd = { host = "10.1.1.2"; port = 5000; };
-    transmission = { host = "10.1.1.2"; port = 9091; };
-  };
-
-  defaultUpstreamSettings = {
-    internal = true;
-    external = false;
-    host = "127.0.0.1";
-  };
-
-  upstreamsWithDefaults = lib.mapAttrs (_: v: defaultUpstreamSettings // v) upstreams;
-
-  upstreamToVirtualHostConfig =
-    { host ? "127.0.0.1", port, ... }: {
-      locations."/" = {
-        proxyPass = "http://${host}:${builtins.toString port}";
-        proxyWebsockets = true;
-      };
-    };
-
-  upstreamToHostnames = config: lib.flatten (
-    lib.mapAttrsToList (name: value: lib.optional config.${name} value)
-      secrets.virtualHostnames
-  );
-
-  upstreamToVirtualHosts = name: config:
-    builtins.map
-      ({ hostname, extraConfig ? { } }: {
-        "${name}.${hostname}" = extraConfig // upstreamToVirtualHostConfig config;
-      })
-      (upstreamToHostnames config);
-
-  virtualHostList = lib.flatten (lib.mapAttrsToList upstreamToVirtualHosts upstreamsWithDefaults);
+  internal = secrets.virtualHostnames.internal.hostname;
+  external = secrets.virtualHostnames.external.hostname;
 in
 {
+  imports = [
+    ../../modules/reverse-proxy.nix
+  ];
+
+  reverseProxy = {
+    enable = true;
+
+    upstreams = {
+      jackett.port = 9117;
+      jellyfin.port = 8096;
+      lidarr.port = 8686;
+      owntone.port = 3689;
+      radarr.port = 7878;
+      sonarr.port = 8989;
+      slskd = { host = "10.1.1.2"; port = 5000; };
+      transmission = { host = "10.1.1.2"; port = 9091; };
+    };
+
+    downstreams = {
+      internal = {
+        implementation = "nginx";
+        host = internal;
+        default = true;
+
+        nginxOptions = {
+          listenAddresses = [ secrets.ips.storig ];
+          useACMEHost = internal;
+          forceSSL = true;
+        };
+      };
+      external = {
+        implementation = "cloudflared";
+        host = external;
+        default = false;
+
+        cloudflaredTunnelID = secrets.cloudflaredTunnelID;
+        cloudflaredCredentialsFile = config.age.secrets.cloudflared-tunnel-external-credentials.path;
+      };
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+
 
   services.nginx = {
     enable = true;
+    # Use recommended settings
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
     recommendedProxySettings = true;
-    defaultListenAddresses = [ secrets.ips.storig ];
+    recommendedTlsSettings = true;
 
-    virtualHosts = lib.mkMerge (virtualHostList ++ [{
-      "storig" = {
-        serverAliases = [
-          secrets.virtualHostnames.internal.hostname
-          secrets.ips.storig
-        ];
-        listen = [
-          { port = 80; addr = "127.0.0.1"; }
-          { port = 80; addr = secrets.ips.storig; }
-        ];
-      };
-      ${secrets.virtualHostnames.external.hostname} = {
-        default = true;
-        listen = [
-          { port = 80; addr = "127.0.0.1"; }
-        ];
-      };
-    }]);
+    virtualHosts.${internal} = {
+      default = true;
+      addSSL = true;
+      useACMEHost = internal;
+
+      listenAddresses = [ secrets.ips.storig ];
+    };
   };
 
   age.secrets.cloudflared-tunnel-external-credentials = {
@@ -81,21 +77,10 @@ in
   services.cloudflared = {
     enable = true;
     tunnels.${secrets.cloudflaredTunnelID} = {
-      credentialsFile = config.age.secrets.cloudflared-tunnel-external-credentials.path;
       default = "http_status:404";
-      ingress =
-        let
-          hostname = secrets.virtualHostnames.external.hostname;
-          upstreamsExternal = lib.filterAttrs (n: v: v.external) upstreamsWithDefaults;
-          mkUpstreamIngress = name: { host, port, ... }: {
-            "${name}.${hostname}" = "http://${host}:${port}";
-          };
-          ingresses =
-            (lib.mapAttrsToList mkUpstreamIngress upstreamsExternal) ++ [{
-              ${hostname} = "http://localhost";
-            }];
-        in
-        lib.mkMerge ingresses;
+      ingress = {
+        ${external} = "http_status:204";
+      };
     };
   };
 
