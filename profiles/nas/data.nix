@@ -1,9 +1,10 @@
 { lib, pkgs, config, ... }:
-let dataDir = "/media/naspool1/data";
+let dataDir = config.my.paths.data;
 in
 {
   imports = [
     ./portunus.nix
+    ./nextcloud.nix
   ];
 
   users.users.data = {
@@ -18,5 +19,6 @@ in
     "d ${dataDir} 0775 data data"
     "d ${dataDir}/System 0775 data data"
     "d ${dataDir}/Documents 0775 data data"
+    "d ${dataDir}/Users 0775 data data"
   ];
 }

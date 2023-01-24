@@ -2,9 +2,11 @@
 {
   imports = [ ../../modules/paths.nix ];
   my.paths = rec {
+    data = "/media/naspool1/data";
+    userData = "${data}/Users";
+    systemData = "${data}/System";
     media = "/media/naspool1/media";
     mediaData = "${media}/.local";
-    data = "/media/naspool1/data";
-    music = "/media/naspool1/media/Music";
+    music = "${media}/Music";
   };
 }
