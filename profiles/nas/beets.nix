@@ -58,8 +58,7 @@ let
       relative_to = "${musicDirectory}/Playlists";
       playlist_dir = "${musicDirectory}/Playlists";
       playlists = [
-        { name = "98 BPM.m3u8"; query = "bpm+"; }
-        { name = "99 Genre - $genre.m3u8"; query = "bpm+"; }
+        { name = "BPM.m3u8"; query = "bpm+"; }
       ];
     };
     ydl = {

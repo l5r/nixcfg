@@ -9,11 +9,19 @@ in
     "d ${navidromeDir} 0755 navidrome media"
   ];
 
+  age.secrets.navidrome-environment = {
+    file = ../../secrets/navidrome-environment.age;
+    mode = "0400";
+    owner = "navidrome";
+    group = "wheel";
+  };
+
   systemd.services.navidrome.serviceConfig = {
     WorkingDirectory = lib.mkForce navidromeDir;
     BindPaths = [ navidromeDir ];
     User = "navidrome";
-    Group = "media";
+    Group = "wheel";
+    EnvironmentFile = config.age.secrets.navidrome-environment.path;
   };
 
   reverseProxy.upstreams.navidrome.port = 4533;
