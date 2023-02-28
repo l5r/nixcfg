@@ -32,10 +32,13 @@
   rootless.enable = true;
   virtualisation.docker.enable = true;
 
-  # hardware.opengl.extraPackages = [
-  #   pkgs.rocm-opencl-icd
-  #   pkgs.rocm-opencl-runtime
-  # ];
+  hardware.opengl.extraPackages = [
+    pkgs.amdvlk
+    pkgs.vaapiVdpau
+    pkgs.libvdpau-va-gl
+    #   pkgs.rocm-opencl-icd
+    #   pkgs.rocm-opencl-runtime
+  ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
