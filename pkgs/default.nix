@@ -5,6 +5,7 @@
   };
   betanin = callPackage ./betanin.nix { };
   ffmpegfs = callPackage ./ffmpegfs.nix { };
+  nocodb = callPackage ./nocodb { };
   owntone = callPackage ./owntone.nix { };
   owntoneMinimal = callPackage ./owntone.nix { withDefault = false; };
   owntoneFull = callPackage ./owntone.nix { withAll = true; };

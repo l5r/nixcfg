@@ -67,13 +67,15 @@
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })
           (import ./overlays/beets-plugins.nix)
-          (final: prev: prev.lib.recursiveUpdate prev {
-            beetsPackages.beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
-              (prev: {
-                patches = prev.patches ++ [
-                  ./patches/beets-lossless-codecs.patch
-                ];
-              });
+          (final: prev: {
+            beetsPackages = prev.beetsPackages // {
+              beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
+                (prev: {
+                  patches = prev.patches ++ [
+                    ./patches/beets-lossless-codecs.patch
+                  ];
+                });
+            };
           })
         ];
       };
@@ -122,10 +124,14 @@
       ###########
       # Outputs #
       ###########
+      overlays = flake-utils-plus.lib.exportOverlays {
+        inherit (self) pkgs inputs;
+      };
+
       outputsBuilder = channels: {
         inherit channels;
 
-        packages = {
+        packages = flake-utils-plus.lib.exportPackages self.overlays channels // {
           inherit (channels.nixpkgs) ffmpegfs;
           inherit (channels.nixpkgs.beetsPackages) beets-yt-dlp beets-bpmanalyser;
         };

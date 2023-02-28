@@ -44,6 +44,9 @@ let
       never_convert_lossy_files = true;
       format = "flac";
     };
+    fetchart = {
+      auto = true;
+    };
     item_fields = {
       multidisc = "1 if disctotal > 1 else 0";
     };
@@ -85,7 +88,7 @@ let
             }
             { key = "SponsorBlock"; }
             { key = "FFmpegMetadata"; }
-            { key = "EmbedThumbnail"; }
+            # { key = "EmbedThumbnail"; }
           ];
 
           source_address = "192.168.1.200";

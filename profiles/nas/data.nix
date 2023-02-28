@@ -5,6 +5,7 @@ in
   imports = [
     ./portunus.nix
     ./nextcloud.nix
+    ./unifi.nix
   ];
 
   users.users.data = {

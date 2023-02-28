@@ -1,2 +1,6 @@
-final: prev: prev.lib.recursiveUpdate prev
-  (import ../pkgs { inherit (final) callPackage; })
+final: prev:
+let pkgs = import ../pkgs { inherit (final) callPackage; };
+in
+pkgs // {
+  beetsPackages = prev.beetsPackages // pkgs.beetsPackages;
+}

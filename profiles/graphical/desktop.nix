@@ -58,10 +58,13 @@ in
       noto-fonts-cjk
       noto-fonts-emoji
       dejavu_fonts
+      liberation_ttf
 
       corefonts
       vistafonts
     ];
+
+    fontDir.enable = true;
 
     fontconfig.defaultFonts = {
 
