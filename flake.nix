@@ -6,7 +6,7 @@
       unstable.url = "nixpkgs/nixos-unstable";
       stable.url = "nixpkgs/nixos-22.11";
       home = {
-        url = "github:nix-community/home-manager/release-22.05";
+        url = "github:nix-community/home-manager/release-22.11";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
@@ -57,12 +57,13 @@
       inherit self inputs;
 
       channelsConfig = { allowUnfree = true; };
+      channels.unstable.overlaysBuilder = channels: [ (import ./overlays/pkgs.nix) ];
       channels.nixpkgs = {
         input = stable;
         overlaysBuilder = channels: [
           agenix.overlays.default
-          (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
           (import ./overlays/pkgs.nix)
+          (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })

@@ -4,7 +4,7 @@ in
 {
   imports = [
     ./beets.nix
-    ./navidrome.nix
+    # ./navidrome.nix
     # ./owntone.nix
     ./torrents.nix
     ./slskd.nix

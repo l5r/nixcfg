@@ -7,23 +7,34 @@
 , msbuild
 , pkg-config
 , mono
+, pkgs
+, stdenv
 , ...
 }:
 buildDotnetModule rec {
   pname = "slskd";
-  version = "0.16.39";
+  version = "0.17.4";
 
   src = fetchFromGitHub {
     owner = "slskd";
     repo = "slskd";
     rev = version;
-    sha256 = "5PWjgGahTFZ2NVOX5hfhdkqmLqtnr3hFUs4tdT7doSk=";
+    sha256 = "D5mrS2HF03PP87zlLP5cxWqjvc/U5k338UOV5CpORXA=";
   };
-  wwwroot = buildNpmPackage {
-    inherit src version;
+  nodeDependencies = (pkgs.callPackage ./web.nix {
+    src = "${src}/src/web";
+  }).nodeDependencies.override { npmFlags = "--legacy-peer-deps"; };
+  wwwroot = stdenv.mkDerivation {
+    inherit version;
+    src = "${src}/src/web";
     pname = "${pname}-wwwroot";
-    sourceRoot = "source/src/web";
-    npmDepsHash = "sha256-39pv907GFZg/ZJE8i9lvzz/TZKthsbnfc3mP/iIuEVg=";
+    nativeBuildInputs = [ nodeDependencies pkgs.nodejs-18_x ];
+    buildPhase = ''
+      cp -r ${nodeDependencies}/lib/node_modules ./
+      chmod -R 700 node_modules
+
+      npm run build --offline
+    '';
     installPhase = "cp -r build $out";
   };
   projectFile = "slskd.sln";
@@ -31,7 +42,6 @@ buildDotnetModule rec {
   postUnpack = ''
     cp -r $wwwroot/* source/src/slskd/wwwroot
   '';
-  patches = [ ../../patches/slskd-cotnent-path.patch ];
 
   dotnet-sdk = dotnetCorePackages.sdk_7_0;
   dotnet-runtime = dotnetCorePackages.sdk_7_0;

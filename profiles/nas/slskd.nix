@@ -65,6 +65,6 @@ in
       "/media/naspool1/media/Music";
     bindMounts."${config.age.secrets.slskd-environment.path}".hostPath =
       config.age.secrets.slskd-environment.path;
-    extraVeths.rpc.forwardPorts = [{ hostPort = 5000; }];
+    extraVeths.rpc.forwardPorts = [{ hostPort = 5030; }];
   };
 }
