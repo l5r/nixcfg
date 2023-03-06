@@ -27,7 +27,7 @@ let
       };
       path = lib.mkOption {
         type = types.str;
-        default = "";
+        default = "/";
         description = lib.mdDoc ''
           This is the path under which the upstreams are placed.
         '';
@@ -50,7 +50,7 @@ let
         port = lib.optionalString (config.port != null) ":${builtins.toString config.port}";
       in
       lib.mkDefault
-        "${config.scheme}://${config.host}${port}/${config.path}";
+        "${config.scheme}://${config.host}${port}${config.path}";
   };
 
   downstreamOptions = { name, config, ... }@inputs: {

@@ -5,6 +5,7 @@ in
   imports = [
     ./portunus.nix
     ./nextcloud.nix
+    ./nocodb.nix
     ./unifi.nix
   ];
 
