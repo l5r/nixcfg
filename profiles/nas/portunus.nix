@@ -18,7 +18,7 @@ in
       tls = true;
     };
 
-    seedPath = seedFile;
+    # seedPath = seedFile;
   };
   systemd.services.portunus.environment.PORTUNUS_SERVER_HTTP_LISTEN =
     lib.mkForce "127.0.0.1:${builtins.toString config.services.portunus.port}";

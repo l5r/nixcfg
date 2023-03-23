@@ -3,6 +3,7 @@ let dataDir = config.my.paths.data;
 in
 {
   imports = [
+    ./bestellinator.nix
     ./portunus.nix
     ./nextcloud.nix
     ./nocodb.nix

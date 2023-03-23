@@ -7,8 +7,8 @@ python3Packages.buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "l5r";
     repo = "beets-yt-dlp";
-    rev = "cceb1205ec14241ed072a255f3db3b06b8307c0b";
-    sha256 = "+mTvwhPcCim8+60/Gmokj3h5nviep533DFRV4GsiWJA=";
+    rev = "ae893c77d95543f8ea908bf5a1843bfc4e7e794e";
+    sha256 = "YnimagFckamFQJZVi4iuaq6mH47zs0VAVHr2P39z7fM=";
   };
   propagatedBuildInputs = [ python3Packages.yt-dlp python3Packages.pyxdg ];
   checkInputs = [ beets ];

@@ -96,5 +96,6 @@ in
   };
 
   users.users.nextcloud.extraGroups = [ "redis-nextcloud" "data" ];
+  users.users.postgres.extraGroups = [ "data" ];
   users.groups.nextcloud.members = [ "data" ];
 }

@@ -17,6 +17,13 @@
         url = "github:gytis-ivaskevicius/flake-utils-plus";
       };
 
+      bestellinator = {
+        url = "github:l5r/bestellinator";
+        inputs = {
+          nixpkgs.follows = "stable";
+        };
+      };
+
       impermanence.url = "github:nix-community/impermanence";
       agenix = {
         url = "github:yaxitech/ragenix";
@@ -35,6 +42,7 @@
 
   outputs =
     inputs@{ self
+    , bestellinator
     , flake-utils-plus
     , home
     , impermanence
@@ -63,6 +71,9 @@
         overlaysBuilder = channels: [
           agenix.overlays.default
           (import ./overlays/pkgs.nix)
+          (final: prev: {
+            bestellinator = bestellinator.packages.${channels.nixpkgs.system}.bestellinator;
+          })
           (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
