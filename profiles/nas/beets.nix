@@ -3,7 +3,8 @@ let
   secrets = import ../../secrets/default.nix;
   musicDirectory = "/media/naspool1/media/Music";
   beetsDirectory = "${musicDirectory}/.config/beets";
-  beetsConfig = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } {
+  beetsConfigFile = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } beetsConfig);
+  beetsConfig = {
     directory = musicDirectory;
     import = {
       write = true;
@@ -21,7 +22,7 @@ let
 
     plugins = [
       "bpmanalyser"
-      "chroma"
+      # "chroma"
       "convert"
       "duplicates"
       "edit"
@@ -38,11 +39,14 @@ let
       "replaygain"
     ];
     bpmanalyser.auto = true;
-    chroma.auto = true;
+    # chroma.auto = false;
     convert = {
       auto = true;
       never_convert_lossy_files = true;
       format = "flac";
+      formats = {
+        aac = "ffmpeg -i $source -c:a libfdk_aac -b:a 256k $dest";
+      };
     };
     fetchart = {
       auto = true;
@@ -96,8 +100,14 @@ let
         };
       urls = secrets.beets-yt-dlp-urls;
     };
-
-  });
+  };
+  beetsExportConfigFile = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } beetsConfig);
+  beetsExportConfig = lib.recursiveUpdate beetsConfig {
+    convert = {
+      never_convert_lossy_files = false;
+      format = "aac";
+    };
+  };
 in
 {
   users.users.beets = {
@@ -109,10 +119,11 @@ in
     shell = pkgs.fish;
   };
 
-  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg ];
+  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg_5-full ];
 
   systemd.tmpfiles.rules = [
-    "L+ ${beetsDirectory}/config.yaml - - - - ${beetsConfig}"
+    "L+ ${beetsDirectory}/config.yaml - - - - ${beetsConfigFile}"
+    "L+ ${beetsDirectory}/config-export.yaml - - - - ${beetsExportConfigFile}"
   ];
 
   fileSystems."/media/naspool1/media/iTunes" = {
