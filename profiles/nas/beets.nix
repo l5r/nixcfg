@@ -39,7 +39,7 @@ let
       "replaygain"
     ];
     bpmanalyser.auto = true;
-    # chroma.auto = false;
+    chroma.auto = false;
     convert = {
       auto = true;
       never_convert_lossy_files = true;
@@ -119,7 +119,7 @@ in
     shell = pkgs.fish;
   };
 
-  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg_5-full ];
+  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg pkgs.tmux ];
 
   systemd.tmpfiles.rules = [
     "L+ ${beetsDirectory}/config.yaml - - - - ${beetsConfigFile}"

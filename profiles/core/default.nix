@@ -26,5 +26,7 @@ in
 
   users.mutableUsers = false;
 
+  environment.systemPackages = [ pkgs.neovim ];
+  environment.variables.EDITOR = "nvim";
 
 }
