@@ -7,7 +7,7 @@
     ../profiles/devel/default.nix
     ../modules/zfs.old.nix
     ../modules/applications.nix
-    ../profiles/teams.nix
+    # ../profiles/teams.nix
 
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
