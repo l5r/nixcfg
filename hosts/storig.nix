@@ -144,7 +144,7 @@ in
   swapDevices =
     [{ device = "/dev/disk/by-uuid/0883dbcc-a1e9-4026-bde1-3dd92c7f2d8c"; }];
 
-  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "r8169" ];
+  boot.initrd.availableKernelModules = [ "ehci_pci" "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "r8169" "amdgpu" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -156,11 +156,10 @@ in
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-media-driver
-      vaapiIntel
       vaapiVdpau
       libvdpau-va-gl
-      intel-ocl # OpenCL support
+      rocm-opencl-icd
+      rocm-opencl-runtime
     ];
   };
 
