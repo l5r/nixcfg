@@ -45,7 +45,7 @@ let
       never_convert_lossy_files = true;
       format = "flac";
       formats = {
-        aac = "ffmpeg -i $source -c:a libfdk_aac -b:a 256k $dest";
+        aac = "ffmpeg -i $source -y -vn -aac_pns 0 -b:a 256k $dest";
       };
     };
     fetchart = {
@@ -101,7 +101,7 @@ let
       urls = secrets.beets-yt-dlp-urls;
     };
   };
-  beetsExportConfigFile = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } beetsConfig);
+  beetsExportConfigFile = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } beetsExportConfig);
   beetsExportConfig = lib.recursiveUpdate beetsConfig {
     convert = {
       never_convert_lossy_files = false;
