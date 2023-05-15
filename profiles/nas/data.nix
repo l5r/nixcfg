@@ -6,7 +6,7 @@ in
     # ./bestellinator.nix
     ./portunus.nix
     ./nextcloud.nix
-    ./nocodb.nix
+    # ./nocodb.nix
     ./unifi.nix
   ];
 

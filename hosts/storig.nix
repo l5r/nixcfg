@@ -110,8 +110,9 @@ in
       RemainAfterExit = "yes";
       ExecStart = "${pkgs.zfs}/bin/zfs load-key -r naspool1";
     };
-    requires = [ "persist.mount" ];
-    after = [ "persist.mount" ];
+    requires = [ "persist.mount" "zfs-import-naspool1.service" ];
+    after = [ "persist.mount" "zfs-import-naspool1.service" ];
+    requiredBy = [ "zfs-mount.service" ];
     before = [ "zfs-mount.service" ];
   };
 
@@ -121,6 +122,11 @@ in
     options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
   };
   fileSystems."/media/naspool1/media" = {
+    device = "naspool1/media";
+    fsType = "zfs";
+    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
+  };
+  fileSystems."/media/naspool1/data" = {
     device = "naspool1/media";
     fsType = "zfs";
     options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
