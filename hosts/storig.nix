@@ -47,6 +47,7 @@ in
     ];
     directories = [
       { directory = "/var/lib/acme"; user = "acme"; group = "acme"; mode = "0750"; }
+      { directory = "/var/lib/nixos"; user = "root"; group = "root"; mode = "0750"; }
     ];
   };
   systemd.services.sshd.wantedBy = [ "emergency.target" ];
