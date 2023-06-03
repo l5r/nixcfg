@@ -80,6 +80,11 @@ in
     };
   };
 
+  systemd.services."container@torrent.service" = {
+    requires = [ "media-naspool1-media.mount" ];
+    after = [ "media-naspool1-media.mount" ];
+  };
+
   ids.uids.transmission = lib.mkForce 2001;
   users.users.transmission = {
     uid = config.ids.uids.transmission;
