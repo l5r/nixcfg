@@ -65,9 +65,14 @@ in
         };
       };
       languageserver = {
-        rnix-lsp = {
-          command = "${pkgs.rnix-lsp}/bin/rnix-lsp";
+        # rnix-lsp = {
+        #   command = "${pkgs.rnix-lsp}/bin/rnix-lsp";
+        #   filetypes = [ "nix" ];
+        # };
+        nil = {
+          command = "${pkgs.nil}/bin/nil";
           filetypes = [ "nix" ];
+          rootPatterns = [ "flake.nix" ];
         };
         ccls = {
           command = "ccls";
