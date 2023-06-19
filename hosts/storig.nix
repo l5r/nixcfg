@@ -60,6 +60,8 @@ in
   networking.useDHCP = true;
   networking.networkmanager.enable = lib.mkForce false;
   networking.hostId = "50fb60de";
+  networking.hostName = "storig";
+  services.nscd.enableNsncd = false;
   systemd.network.wait-online.extraArgs = [ "-i" "enp3s0" ];
   systemd.network.networks."10-enp3s0" = {
     matchConfig.Name = "enp3s0";

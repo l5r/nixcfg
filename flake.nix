@@ -4,9 +4,9 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-22.11";
+      stable.url = "nixpkgs/nixos-23.05";
       home = {
-        url = "github:nix-community/home-manager/release-22.11";
+        url = "github:nix-community/home-manager/release-23.05";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
@@ -114,7 +114,6 @@
 
       hosts.storig.modules = [
         ./hosts/storig.nix
-        "${inputs.unstable}/nixos/modules/services/networking/cloudflared.nix"
         impermanence.nixosModule
         agenix.nixosModules.age
       ];

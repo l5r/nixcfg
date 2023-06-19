@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ config, ... }:
 let
   dataDir = config.my.paths.data;
 in

@@ -80,7 +80,7 @@ in
     };
   };
 
-  systemd.services."container@torrent.service" = {
+  systemd.services."container@torrent" = {
     requires = [ "media-naspool1-media.mount" ];
     after = [ "media-naspool1-media.mount" ];
   };

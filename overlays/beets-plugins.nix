@@ -7,7 +7,7 @@ in
 {
   beetsPackages = prev.beetsPackages // {
     yt-dlp = callBeetsPlugin ../pkgs/beets-yt-dlp.nix;
-    bpmanalyser = callBeetsPlugin ../pkgs/beets-bpmanalyser.nix;
+    # bpmanalyser = callBeetsPlugin ../pkgs/beets-bpmanalyser.nix;
     beets-stable = prev.beetsPackages.beets-stable.override {
       pluginOverrides = {
         yt-dlp = {
@@ -19,7 +19,7 @@ in
         bpmanalyser = {
           enable = true;
           propagatedBuildInputs = [
-            final.beetsPackages.bpmanalyser
+            # final.beetsPackages.bpmanalyser
             final.aubio
           ];
         };
