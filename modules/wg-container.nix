@@ -38,7 +38,7 @@ in
               };
               wireguardPeerConfig = lib.mkOption {
                 default = { };
-                type = lib.types.attrsOf lib.types.str;
+                type = lib.types.attrsOf lib.types.anything;
                 description = lib.mdDoc ''
                   Each attribute in this set specifies an option in the
                   `[WireGuardPeer]` section of the unit.  See
@@ -85,7 +85,7 @@ in
             netdevConfig = {
               Kind = "wireguard";
               Name = interface;
-              MTUBytes = "1400";
+              MTUBytes = "1300";
             };
             wireguardConfig = {
               PrivateKeyFile = privateKeyFile;

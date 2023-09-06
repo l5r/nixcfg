@@ -4,6 +4,22 @@ let
   musicDirectory = "/media/naspool1/media/Music";
   beetsDirectory = "${musicDirectory}/.config/beets";
   beetsConfigFile = pkgs.writeText "beets-config.yaml" (lib.generators.toYAML { } beetsConfig);
+  ytDlpDir = "/media/naspool1/media/Download/yt-dlp";
+  ytDlpConfig = pkgs.writeText "yt-dlp.conf" ''
+    --write-thumbnail
+
+    --extract-audio
+    --embed-thumbnail
+    --embed-metadata
+    --sponsorblock-remove default
+    -f bestaudio
+
+    # Output file template
+    -o "${ytDlpDir}/%(extractor)S/%(playlist,genre)S/%(album_artist,artist,creator,uploader,channel)S/%(album,series|Non-Album)S/%(title)S.%(ext)s"
+    --download-archive "${ytDlpDir}/00-yt-dlp.txt"
+  '';
+  ytDlpBatchFile = pkgs.writeText "yt-dlp-batch.txt"
+    (builtins.concatStringsSep "\n" secrets.beets-yt-dlp-urls);
   beetsConfig = {
     directory = musicDirectory;
     import = {
@@ -70,7 +86,7 @@ let
     };
     ydl = {
       keep_files = true;
-      youtubedl_options = let yt-dlpDir = "/media/naspool1/media/Download/yt-dlp"; in
+      youtubedl_options = let yt-dlpDir = ytDlpDir; in
         {
           cachedir = "${yt-dlpDir}/cache";
           download_archive = "${yt-dlpDir}/00-yt-dlp.tx";
@@ -119,11 +135,14 @@ in
     shell = pkgs.fish;
   };
 
-  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg pkgs.tmux ];
+  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg pkgs.tmux pkgs.yt-dlp ];
 
   systemd.tmpfiles.rules = [
+    "d ${beetsDirectory} 0775 media media"
     "L+ ${beetsDirectory}/config.yaml - - - - ${beetsConfigFile}"
     "L+ ${beetsDirectory}/config-export.yaml - - - - ${beetsExportConfigFile}"
+    "L+ ${beetsDirectory}/yt-dlp.conf - - - - ${ytDlpConfig}"
+    "L+ ${beetsDirectory}/yt-dlp-batch.txt - - - - ${ytDlpBatchFile}"
   ];
 
   fileSystems."/media/naspool1/media/iTunes" = {

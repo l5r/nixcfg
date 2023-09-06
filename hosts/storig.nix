@@ -33,6 +33,7 @@ in
 
   boot.initrd.network = {
     enable = true;
+    # udhcpc.enable = true;
     ssh = {
       enable = true;
       port = 2222;
@@ -54,10 +55,12 @@ in
 
   age.identityPaths = [ "/persist/etc/ssh/ssh_host_ed25519_key" ];
   age.secrets.wireguard-private.file = ../secrets/storig-wireguard-private.age;
+  age.secrets.wireguard-psk.file = ../secrets/storig-wireguard-psk.age;
 
   services.fwupd.enable = true;
 
   networking.useDHCP = true;
+  networking.dhcpcd.enable = false; # Use networkd instead
   networking.networkmanager.enable = lib.mkForce false;
   networking.hostId = "50fb60de";
   networking.hostName = "storig";
@@ -65,8 +68,17 @@ in
   systemd.network.wait-online.extraArgs = [ "-i" "enp3s0" ];
   systemd.network.networks."10-enp3s0" = {
     matchConfig.Name = "enp3s0";
-    address = [ "192.168.1.200" ];
+    DHCP = "yes";
+    address = [ "192.168.128.200" ];
+    dns = [ "1.1.1.1" "1.0.0.1" ];
   };
+
+  networking.interfaces.enp3s0.ipv4.addresses = [
+    {
+      address = builtins.head config.systemd.network.networks."10-enp3s0".address;
+      prefixLength = 23;
+    }
+  ];
 
   rootless = {
     enable = true;

@@ -18,14 +18,22 @@ in
     group = "systemd-network";
   };
 
+  age.secrets.wireguard-psk = {
+    mode = "440";
+    owner = "root";
+    group = "systemd-network";
+  };
+
   wg-container = {
     enable = true;
     containers.torrent = {
       enable = true;
       privateKeyFile = config.age.secrets.wireguard-private.path;
-      wireguardPeerConfig = secrets.wireguardPeerConfig;
+      wireguardPeerConfig = secrets.wireguardPeerConfig // {
+        PresharedKeyFile = config.age.secrets.wireguard-psk.path;
+      };
       wireguardIPs = secrets.wireguardIPs;
-      dns = [ "10.64.0.1" ];
+      dns = [ "10.4.0.1" "fde6:7a:7d20:4::1" "1.1.1.1" ];
 
       config = { lib, pkgs, ... }: {
         system.activationScripts.remove-default-route-via-host = ''
