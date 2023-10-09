@@ -61,7 +61,10 @@ let
       never_convert_lossy_files = true;
       format = "flac";
       formats = {
-        aac = "ffmpeg -i $source -y -vn -aac_pns 0 -b:a 256k $dest";
+        aac = {
+          command = "ffmpeg -i $source -y -vn -acodec aac -aac_pns 0 -b:a 256k $dest";
+          extension = "m4a";
+        };
       };
     };
     fetchart = {
@@ -121,6 +124,7 @@ let
   beetsExportConfig = lib.recursiveUpdate beetsConfig {
     convert = {
       never_convert_lossy_files = false;
+      no_convert="format:mp3";
       format = "aac";
     };
   };
