@@ -62,6 +62,8 @@ in
 
       corefonts
       vistafonts
+
+      google-fonts
     ];
 
     fontDir.enable = true;
