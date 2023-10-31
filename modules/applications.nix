@@ -19,10 +19,10 @@
     libreoffice
 
     # spotify
-    teams
-    discord
-    slack
-    zoom-us
+    # teams
+    # discord
+    # slack
+    # zoom-us
 
     eid-mw
 
