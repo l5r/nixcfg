@@ -2,7 +2,7 @@
 {
   imports = [
     ./desktop.nix
-    ../../modules/audio.nix
+    ./audio.nix
     ./sway.nix
     ./greetd.nix
   ];

@@ -139,7 +139,7 @@ in
     shell = pkgs.fish;
   };
 
-  environment.systemPackages = [ pkgs.beets pkgs.ffmpegfs pkgs.ffmpeg pkgs.tmux pkgs.yt-dlp ];
+  environment.systemPackages = [ pkgs.beets pkgs.ffmpeg pkgs.tmux pkgs.yt-dlp ];
 
   systemd.tmpfiles.rules = [
     "d ${beetsDirectory} 0775 media media"
@@ -149,30 +149,30 @@ in
     "L+ ${beetsDirectory}/yt-dlp-batch.txt - - - - ${ytDlpBatchFile}"
   ];
 
-  fileSystems."/media/naspool1/media/iTunes" = {
-    device = "${pkgs.ffmpegfs}/bin/ffmpegfs#${musicDirectory}";
-    depends = [ "/dev/fuse" "/media/naspool1" "/media/naspool1/media" ];
-    fsType = "fuse";
-    options = [
-      "allow_other"
-      "ro"
-      "audiobitrate=320K"
-      "desttype=m4a"
-      "autocopy=match"
-      "oldnamescheme=1"
-      "include_extensions=flac\\,ogg\\,opus"
-      "nofail"
-      "x-systemd.requires=media-naspool1-media.mount"
-    ];
-  };
+  # fileSystems."/media/naspool1/media/iTunes" = {
+  #   device = "${pkgs.ffmpegfs}/bin/ffmpegfs#${musicDirectory}";
+  #   depends = [ "/dev/fuse" "/media/naspool1" "/media/naspool1/media" ];
+  #   fsType = "fuse";
+  #   options = [
+  #     "allow_other"
+  #     "ro"
+  #     "audiobitrate=320K"
+  #     "desttype=m4a"
+  #     "autocopy=match"
+  #     "oldnamescheme=1"
+  #     "include_extensions=flac\\,ogg\\,opus"
+  #     "nofail"
+  #     "x-systemd.requires=media-naspool1-media.mount"
+  #   ];
+  # };
 
-  systemd.mounts = [{
-    where = "/media/naspool1/media/iTunes";
-    what = "${pkgs.ffmpegfs}/bin/ffmpegfs#${musicDirectory}";
-    type = "fuse";
-    after = [ "media-naspool1-media.mount" "sys-fs-fuse-connections.mount" ];
-    wants = [ "media-naspool1-media.mount" "sys-fs-fuse-connections.mount" ];
-    wantedBy = [ "multi-user.target" ];
-    options = "allow_other,ro,audiobitrate=320K,desttype=m4a,autocopy=match,oldnamescheme=1,include_extensions=flac\\,ogg\\,opus,nofail,log_stderr";
-  }];
+  # systemd.mounts = [{
+  #   where = "/media/naspool1/media/iTunes";
+  #   what = "${pkgs.ffmpegfs}/bin/ffmpegfs#${musicDirectory}";
+  #   type = "fuse";
+  #   after = [ "media-naspool1-media.mount" "sys-fs-fuse-connections.mount" ];
+  #   wants = [ "media-naspool1-media.mount" "sys-fs-fuse-connections.mount" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   options = "allow_other,ro,audiobitrate=320K,desttype=m4a,autocopy=match,oldnamescheme=1,include_extensions=flac\\,ogg\\,opus,nofail,log_stderr";
+  # }];
 }

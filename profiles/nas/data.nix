@@ -7,7 +7,7 @@ in
     ./portunus.nix
     ./nextcloud.nix
     # ./nocodb.nix
-    ./unifi.nix
+    # ./unifi.nix
   ];
 
   users.users.data = {

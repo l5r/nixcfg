@@ -4,6 +4,7 @@ in
 {
   imports = [
     ./beets.nix
+    ./gonic.nix
     # ./navidrome.nix
     # ./owntone.nix
     ./torrents.nix
@@ -41,7 +42,7 @@ in
 
   systemd.mounts =
     let
-      requires = [ "media-naspool1.mount" "media-naspool1-media.mount" "media-naspool1-media-iTunes.mount" ];
+      requires = [ "media-naspool1.mount" "media-naspool1-media.mount" ];
     in
     [{
       what = "${mediaDir}/.local/jellyfin";

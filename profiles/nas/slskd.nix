@@ -17,24 +17,18 @@ in
   age.secrets.slskd-environment.file = ../../secrets/slskd-environment.age;
 
   wg-container.containers.torrent.config = { ... }: {
-    imports = [ ../../modules/slskd.nix ];
-    networking.firewall.allowedTCPPorts = [ secrets.soulseekPort ];
     services.slskd = {
       enable = true;
-      package = pkgs.slskd;
-      appDir = "/media/naspool1/media/Download/slskd";
-      group = "media";
       openFirewall = true;
       environmentFile = config.age.secrets.slskd-environment.path;
-      config = {
-        directories = {
-          downloads = completeDir;
-        };
+      nginx = {};
+      settings = {
         soulseek = {
           listen_port = secrets.soulseekPort;
+          username = "";
         };
-        web = {
-          url_base = "/slskd";
+        directories = {
+          downloads = completeDir;
         };
         filters.search.request = [
           "^\\..*$"
@@ -48,8 +42,25 @@ in
       };
     };
 
+    services.nginx.enable = lib.mkForce false;
+
+    systemd.mounts = [{
+      what = "${downloadDir}/slskd";
+      where = "/var/lib/private/slskd";
+      requires = ["media-naspool1-media.mount"];
+      after = ["media-naspool1-media.mount"];
+      requiredBy = ["slskd.service"];
+      before = ["slskd.service"];
+      options = "bind,x-gvs-hide";
+      mountConfig.directoryMode = "0700";
+    }];
+
+
     users.users.slskd.uid = lib.mkForce config.users.users.slskd.uid;
+    users.users.slskd.extraGroups = ["media"];
+    users.groups.media.gid = lib.mkForce config.users.groups.media.gid;
   };
+
   users.users.slskd = {
     uid = 2002;
     group = "media";

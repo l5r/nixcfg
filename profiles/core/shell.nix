@@ -32,7 +32,7 @@
           direnv
           dnsutils
           dosfstools
-          exa
+          eza
           fd
           git
           git-crypt
@@ -67,7 +67,7 @@
             "....." = "cd ../../../..";
 
             # better ls
-            ls = "exa --classify --git";
+            ls = "eza --classify --git";
             ll = "ls -l --header --group";
             la = "ll -a";
             tree = "ls --tree";

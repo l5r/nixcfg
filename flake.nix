@@ -4,9 +4,9 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-23.05";
+      stable.url = "nixpkgs/nixos-23.11";
       home = {
-        url = "github:nix-community/home-manager/release-23.05";
+        url = "github:nix-community/home-manager/release-23.11";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
@@ -34,7 +34,7 @@
       };
 
       stylix = {
-        url = "github:danth/stylix/release-23.05";
+        url = "github:danth/stylix";
         inputs.nixpkgs.follows = "stable";
         inputs.home-manager.follows = "home";
       };
@@ -78,7 +78,7 @@
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })
-          (import ./overlays/beets-plugins.nix)
+          # (import ./overlays/beets-plugins.nix)
           (final: prev: {
             beetsPackages = prev.beetsPackages // {
               beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
@@ -87,6 +87,21 @@
                     ./patches/beets-lossless-codecs.patch
                   ];
                 });
+            };
+          })
+          (final: prev: {
+            gonic = prev.gonic.override {
+              buildGoModule = args: channels.unstable.buildGoModule (args // rec {
+                version = "0.16.0";
+                src = final.fetchFromGitHub {
+                  owner = "sentriz";
+                  repo = "gonic";
+                  rev = "v${version}";
+                  sha256 = "sha256-BkO6PIUoUHpEDnxCNSvLcLN5LGjaJfyhYLFARnG1JHY=";
+                };
+                vendorHash = "sha256-wRX6l56kbYiH4QaxzMaPKeaJJ3h48+Xr2KGKqPBIDoo=";
+                doCheck = false;
+              });
             };
           })
         ];

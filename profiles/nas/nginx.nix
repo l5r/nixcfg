@@ -14,12 +14,8 @@ in
     enable = true;
 
     upstreams = {
-      jackett.port = 9117;
       jellyfin.port = 8096;
-      lidarr.port = 8686;
       owntone.port = 3689;
-      radarr.port = 7878;
-      sonarr.port = 8989;
       slskd = { host = "10.1.1.2"; port = 5000; };
       transmission = { host = "10.1.1.2"; port = 9091; };
     };

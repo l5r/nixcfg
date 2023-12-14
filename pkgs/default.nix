@@ -4,7 +4,7 @@
     beets-bpmanalyser = callPackage ./beets-bpmanalyser.nix { };
   };
   betanin = callPackage ./betanin.nix { };
-  ffmpegfs = callPackage ./ffmpegfs.nix { };
+  # ffmpegfs = callPackage ./ffmpegfs.nix { };
   nocodb = callPackage ./nocodb { };
   owntone = callPackage ./owntone.nix { };
   owntoneMinimal = callPackage ./owntone.nix { withDefault = false; };

@@ -69,7 +69,7 @@ in
   systemd.network.networks."10-enp3s0" = {
     matchConfig.Name = "enp3s0";
     DHCP = "yes";
-    address = [ "192.168.128.200" ];
+    address = [ "192.168.129.250" ];
     dns = [ "1.1.1.1" "1.0.0.1" ];
   };
 

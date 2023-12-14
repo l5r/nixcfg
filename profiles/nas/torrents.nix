@@ -70,6 +70,10 @@ in
             speed-limit-up-enabled = true;
           };
         };
+
+        systemd.services.transmission.serviceConfig.BindReadOnlyPaths = lib.mkForce [ builtins.storeDir "/etc" ];
+        systemd.services.transmission.serviceConfig.BindPaths = lib.mkForce [ torrentDir "/run/systemd" ];
+
         system.stateVersion = "22.11";
       };
     };

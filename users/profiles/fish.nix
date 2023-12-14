@@ -9,7 +9,7 @@
     '';
 
     shellAliases = {
-      ls = "exa --classify --git";
+      ls = "eza --classify --git";
       ll = "ls -l --header --group";
       la = "ll -a";
       tree = "ls --tree";

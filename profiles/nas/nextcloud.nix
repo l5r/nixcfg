@@ -11,7 +11,7 @@ in
     enable = true;
     hostName = "nextcloud.${secrets.virtualHostnames.external.hostname}";
     https = true;
-    package = pkgs.nextcloud25;
+    package = pkgs.nextcloud26;
 
     home = "${config.my.paths.systemData}/var/lib/nextcloud";
 
@@ -24,7 +24,7 @@ in
     };
 
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud25Packages.apps;{
+    extraApps = with pkgs.nextcloud26Packages.apps;{
       inherit bookmarks calendar contacts deck files_texteditor
         groupfolders mail news notes polls spreed tasks;
     };
@@ -58,7 +58,6 @@ in
       trusted_proxies = [ "127.0.0.1" "::1" ];
     };
     phpOptions = {
-      "apc.enable_cli" = true;
       "redis.session.locking_enabled" = "1";
       "redis.session.lock_retries" = "-1";
       "redis.session.lock_wait_time" = "10000";

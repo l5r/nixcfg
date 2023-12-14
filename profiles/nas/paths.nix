@@ -8,5 +8,6 @@
     media = "/media/naspool1/media";
     mediaData = "${media}/.local";
     music = "${media}/Music";
+    podcasts = "${media}/Podcasts";
   };
 }

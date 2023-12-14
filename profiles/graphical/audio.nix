@@ -8,18 +8,11 @@
   services.blueman.enable = true;
   hardware.bluetooth = {
     enable = true;
-    package = pkgs.bluezFull;
+    package = pkgs.bluez;
     powerOnBoot = true;
   };
 
-  nixpkgs.config.pulseaudio = true;
-  hardware.pulseaudio = {
-    enable = false;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
-  };
-
+  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
     pulse.enable = true;
