@@ -31,6 +31,7 @@ in
   boot.loader.grub.zfsSupport = true;
   boot.loader.grub.device = "nodev";
 
+  boot.kernelParams = [ "ip=dhcp" ];
   boot.initrd.network = {
     enable = true;
     # udhcpc.enable = true;
