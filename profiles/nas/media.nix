@@ -26,6 +26,10 @@ in
     openFirewall = true;
   };
   systemd.services.jellyfin.serviceConfig.PrivateDevices = lib.mkForce false;
+  reverseProxy.upstreams.jellyfin = {
+    url = "http://127.0.0.1:8096";
+    downstreams = ["internal" "external"];
+  };
 
   systemd.tmpfiles.rules = [
     "d ${mediaDir} 0775 media media"
@@ -42,7 +46,7 @@ in
 
   systemd.mounts =
     let
-      requires = [ "media-naspool1.mount" "media-naspool1-media.mount" ];
+      requires = [ "media-naspool1-media.mount" ];
     in
     [{
       what = "${mediaDir}/.local/jellyfin";

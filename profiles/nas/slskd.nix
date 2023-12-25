@@ -23,6 +23,7 @@ in
       environmentFile = config.age.secrets.slskd-environment.path;
       nginx = {};
       settings = {
+        web.port = 5030;
         soulseek = {
           listen_port = secrets.soulseekPort;
           username = "";
@@ -42,13 +43,15 @@ in
       };
     };
 
+    systemd.services.slskd.serviceConfig.ReadWritePaths = [ downloadDir ];
+
     services.nginx.enable = lib.mkForce false;
 
     systemd.mounts = [{
       what = "${downloadDir}/slskd";
       where = "/var/lib/private/slskd";
-      requires = ["media-naspool1-media.mount"];
-      after = ["media-naspool1-media.mount"];
+      requires = ["media-naspool1-media-Download.mount"];
+      after = ["media-naspool1-media-Download.mount"];
       requiredBy = ["slskd.service"];
       before = ["slskd.service"];
       options = "bind,x-gvs-hide";
@@ -59,6 +62,10 @@ in
     users.users.slskd.uid = lib.mkForce config.users.users.slskd.uid;
     users.users.slskd.extraGroups = ["media"];
     users.groups.media.gid = lib.mkForce config.users.groups.media.gid;
+  };
+
+  reverseProxy.upstreams = {
+    slskd = { host = "10.1.1.2"; port = 5030;};
   };
 
   users.users.slskd = {

@@ -98,25 +98,25 @@ in
   fileSystems."/" = {
     device = "rpool/nixos/root";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
+    options = [ "x-mount.mkdir" ];
   };
 
   fileSystems."/var/log" = {
     device = "rpool/nixos/var/log";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
+    options = [ "x-mount.mkdir" ];
   };
 
   fileSystems."/nix" = {
     device = "rpool/nixos/nix";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
+    options = [ "x-mount.mkdir" ];
   };
 
   fileSystems."/persist" = {
     device = "rpool/nixos/persist";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" ];
+    options = [ "x-mount.mkdir" ];
     neededForBoot = true;
   };
 
@@ -132,26 +132,26 @@ in
     before = [ "zfs-mount.service" ];
   };
 
-  fileSystems."/media/naspool1" = {
-    device = "naspool1";
-    fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
-  };
+  # fileSystems."/media/naspool1" = {
+  #   device = "naspool1";
+  #   fsType = "zfs";
+  #   options = [ "x-mount.mkdir" "x-systemd.after=zfs-load-key-naspool1.service" "x-systemd.requires=zfs-load-key-naspool1.service" ];
+  # };
   fileSystems."/media/naspool1/media" = {
     device = "naspool1/media";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
+    options = [ "x-mount.mkdir" "x-systemd.after=zfs-load-key-naspool1.service" "x-systemd.requires=zfs-load-key-naspool1.service" ];
   };
   fileSystems."/media/naspool1/data" = {
-    device = "naspool1/media";
+    device = "naspool1/data";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.requires=zfs-load-key-naspool1.service" ];
+    options = [ "x-mount.mkdir" "x-systemd.after=zfs-load-key-naspool1.service" "x-systemd.requires=zfs-load-key-naspool1.service" ];
   };
 
   fileSystems."/boot" = {
     device = "bpool/nixos/root";
     fsType = "zfs";
-    options = [ "zfsutil" "x-mount.mkdir" "x-systemd.automount" ];
+    options = [ "x-mount.mkdir" "x-systemd.automount" ];
   };
 
   fileSystems."/boot/efi" = {

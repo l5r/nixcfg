@@ -49,6 +49,7 @@ in
         services.transmission = {
           enable = true;
           group = "media";
+          package = pkgs.transmission_4;
           home = torrentDir;
           downloadDirPermissions = "775";
           openPeerPorts = true;

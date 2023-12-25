@@ -3,7 +3,8 @@
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [
     epson-escpr
-    hplip
+    pkgs.brgenml1lpr
+    pkgs.brgenml1cupswrapper
   ];
 
   hardware.sane.enable = true;

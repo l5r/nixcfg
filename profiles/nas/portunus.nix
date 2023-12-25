@@ -18,10 +18,13 @@ in
       tls = true;
     };
 
-    # seedPath = seedFile;
+    seedPath = seedFile;
   };
   systemd.services.portunus.environment.PORTUNUS_SERVER_HTTP_LISTEN =
     lib.mkForce "127.0.0.1:${builtins.toString config.services.portunus.port}";
+
+  systemd.services.portunus.after = ["media-naspool1-data.mount"];
+  systemd.services.portunus.requires = ["media-naspool1-data.mount"];
 
   reverseProxy.upstreams.portunus.port = config.services.portunus.port;
 

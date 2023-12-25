@@ -14,9 +14,7 @@ in
     enable = true;
 
     upstreams = {
-      jellyfin.port = 8096;
       owntone.port = 3689;
-      slskd = { host = "10.1.1.2"; port = 5000; };
       transmission = { host = "10.1.1.2"; port = 9091; };
     };
 

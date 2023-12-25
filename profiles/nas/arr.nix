@@ -14,7 +14,7 @@ in
   services.prowlarr.enable = true;
 
   systemd.tmpfiles.rules = [
-    "d ${config.users.users.media.home}/.local/prowlarr 0700 root root"
+    "d ${config.users.users.media.home}/.local/prowlarr 0700 prowlarr media"
   ];
   systemd.mounts =
     let
