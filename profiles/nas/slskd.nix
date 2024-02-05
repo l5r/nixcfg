@@ -43,6 +43,8 @@ in
       };
     };
 
+    networking.firewall.interfaces.rpc.allowedTCPPorts = [ 5030 ];
+
     systemd.services.slskd.serviceConfig.ReadWritePaths = [ downloadDir ];
 
     services.nginx.enable = lib.mkForce false;

@@ -25,7 +25,7 @@ in
         default = true;
 
         nginxOptions = {
-          listenAddresses = [ secrets.ips.storig ];
+          listenAddresses = [ secrets.ips.storig "[${secrets.ips.storigIPv6}]" ];
           useACMEHost = internal;
           forceSSL = true;
         };
@@ -57,7 +57,7 @@ in
       addSSL = true;
       useACMEHost = internal;
 
-      listenAddresses = [ secrets.ips.storig ];
+      listenAddresses = [ secrets.ips.storig "[${secrets.ips.storigIPv6}]" ];
     };
   };
 
