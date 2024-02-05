@@ -25,6 +25,7 @@ in
     group = "media";
     openFirewall = true;
   };
+  users.users.jellyfin.extraGroups = [ "video" "render" ];
   systemd.services.jellyfin.serviceConfig.PrivateDevices = lib.mkForce false;
   reverseProxy.upstreams.jellyfin = {
     url = "http://127.0.0.1:8096";
