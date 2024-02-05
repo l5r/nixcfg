@@ -15,7 +15,7 @@ in
     };
     description = "default";
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" "scanner" "lp" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "adbusers" "scanner" "lp" "video" "render" ];
     shell = pkgs.fish;
   };
 
