@@ -40,6 +40,7 @@ in
     "d ${mediaDir}/Music/.config 0775 media media"
     "d ${mediaDir}/Movies/ 0775 media media"
     "d ${mediaDir}/TV/ 0775 media media"
+    "d ${mediaDir}/Books/ 0775 media media"
 
     "d ${mediaDir}/.local/jellyfin 0775 jellyfin media"
     # "L /var/lib/jellyfin/ 0700 jellyfin media - ${mediaDir}/.local/jellyfin/"
