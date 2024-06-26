@@ -45,6 +45,8 @@
 
       highlight Identifier ctermfg=DarkBlue
       hi link CocFloating Normal
+
+      let g:slimv_swank_cmd = "call jobstart('kitty sbcl --load ${pkgs.vimPlugins.slimv}/slime/start-swank.lisp')"
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -82,6 +84,7 @@
       coc-vetur
       coc-vimtex
       coc-yaml
+      slimv
     ] ++ (builtins.attrValues (import ./plugins args));
   };
 

@@ -7,19 +7,19 @@ in
 {
   beetsPackages = prev.beetsPackages // {
     yt-dlp = callBeetsPlugin ../pkgs/beets-yt-dlp.nix;
-    # bpmanalyser = callBeetsPlugin ../pkgs/beets-bpmanalyser.nix;
+    bpmanalyser = callBeetsPlugin ../pkgs/beets-bpmanalyser.nix;
     beets-stable = prev.beetsPackages.beets-stable.override {
       pluginOverrides = {
-        yt-dlp = {
-          enable = true;
-          propagatedBuildInputs = [
-            final.beetsPackages.yt-dlp
-          ];
-        };
+        # yt-dlp = {
+        #   enable = false;
+        #   propagatedBuildInputs = [
+        #     final.beetsPackages.yt-dlp
+        #   ];
+        # };
         bpmanalyser = {
           enable = true;
           propagatedBuildInputs = [
-            # final.beetsPackages.bpmanalyser
+            final.beetsPackages.bpmanalyser
             final.aubio
           ];
         };
@@ -31,16 +31,20 @@ in
     packageOverrides = pFinal: pPrev: {
       sqlalchemy-json = final.callPackage ../pkgs/sqlalchemy-json.nix
         { python3Packages = pFinal; };
-      aubio = pPrev.aubio.overridePythonAttrs (prev: {
+      aubio = pPrev.aubio.overridePythonAttrs (prev: let
+        ffmpeg = final.ffmpeg-headless;
+        aubio = final.aubio;
+      in  {
         nativeBuildInputs = (prev.nativeBuildInputs or [ ]) ++ [
           final.pkg-config
         ];
         buildInputs = prev.buildInputs ++ [
-          final.ffmpeg
+          ffmpeg
+          aubio
         ];
         propagatedBuildInputs =
           (prev.propagatedBuildInputs or [ ]) ++
-          [ final.ffmpeg.out.dev ];
+          [ ffmpeg.out.dev ];
       });
     };
   };

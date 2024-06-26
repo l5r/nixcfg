@@ -25,7 +25,6 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.copyKernels = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.zfsSupport = true;
@@ -34,7 +33,7 @@ in
   boot.kernelParams = [ "ip=dhcp" ];
   boot.initrd.network = {
     enable = true;
-    # udhcpc.enable = true;
+    udhcpc.enable = true;
     ssh = {
       enable = true;
       port = 2222;
@@ -60,7 +59,7 @@ in
 
   services.fwupd.enable = true;
 
-  networking.useDHCP = true;
+  networking.useNetworkd = true;
   networking.dhcpcd.enable = false; # Use networkd instead
   networking.networkmanager.enable = lib.mkForce false;
   networking.hostId = "50fb60de";

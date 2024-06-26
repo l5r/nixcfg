@@ -50,7 +50,7 @@ let
       "smartplaylist"
       "spotify"
       "the"
-      "ydl"
+      # "ydl"
       "ftintitle"
       "replaygain"
     ];

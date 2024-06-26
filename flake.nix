@@ -34,7 +34,7 @@
       };
 
       stylix = {
-        url = "github:danth/stylix";
+        url = "github:danth/stylix/release-23.11";
         inputs.nixpkgs.follows = "stable";
         inputs.home-manager.follows = "home";
       };
@@ -78,7 +78,7 @@
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })
-          # (import ./overlays/beets-plugins.nix)
+          (import ./overlays/beets-plugins.nix)
           (final: prev: {
             beetsPackages = prev.beetsPackages // {
               beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
@@ -159,7 +159,7 @@
 
         packages = flake-utils-plus.lib.exportPackages self.overlays channels // {
           inherit (channels.nixpkgs) ffmpegfs;
-          inherit (channels.nixpkgs.beetsPackages) beets-yt-dlp beets-bpmanalyser;
+          inherit (channels.nixpkgs.beetsPackages) beets-bpmanalyser;
         };
 
         devShell = channels.nixpkgs.mkShell {

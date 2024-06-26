@@ -1,5 +1,4 @@
 { lib, beets, aubio, python3Packages }:
-
 python3Packages.buildPythonPackage rec {
   pname = "beets-bpmanalyser";
   version = "1.3.3";
@@ -12,7 +11,7 @@ python3Packages.buildPythonPackage rec {
 
   propagatedBuildInputs = [ python3Packages.numpy python3Packages.aubio ];
   buildInputs = [ beets ];
-  checkInputs = with python3Packages; [ beets pytest mock coverage nose six ];
+  checkInputs = [beets] ++ (with python3Packages; [ pytest mock coverage nose six ]);
   doCheck = false;
 
   meta = {

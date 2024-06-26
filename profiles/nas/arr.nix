@@ -6,7 +6,7 @@ let
   };
 in
 {
-  services.jackett = mkServiceOptions "jackett";
+  # services.jackett = mkServiceOptions "jackett";
   services.lidarr = mkServiceOptions "lidarr";
   services.radarr = mkServiceOptions "radarr";
   services.sonarr = mkServiceOptions "sonarr";

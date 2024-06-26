@@ -11,15 +11,13 @@ in
     enable = true;
     hostName = "nextcloud.${secrets.virtualHostnames.external.hostname}";
     https = true;
-    package = pkgs.nextcloud26;
+    package = pkgs.nextcloud27;
 
     home = "${config.my.paths.systemData}/var/lib/nextcloud";
 
+    database.createLocally = true;
     config = {
       dbtype = "pgsql";
-      dbuser = "nextcloud";
-      dbhost = "/run/postgresql";
-      dbname = "nextcloud";
       adminpassFile = "${pkgs.writeText "adminpass" "0704EFC6-77E8-40C4-89D2-F157DB1C7F2E"}";
     };
 
@@ -73,11 +71,6 @@ in
   services.postgresql = {
     enable = true;
     dataDir = "${config.my.paths.systemData}/var/lib/postgresql/${config.services.postgresql.package.psqlSchema}";
-    ensureDatabases = [ "nextcloud" ];
-    ensureUsers = [{
-      name = "nextcloud";
-      ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
-    }];
   };
 
   # ensure that postgres is running *before* running the setup
