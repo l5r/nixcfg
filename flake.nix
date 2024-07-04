@@ -4,9 +4,9 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-23.11";
+      stable.url = "nixpkgs/nixos-24.05";
       home = {
-        url = "github:nix-community/home-manager/release-23.11";
+        url = "github:nix-community/home-manager/release-24.05";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
@@ -34,7 +34,7 @@
       };
 
       stylix = {
-        url = "github:danth/stylix/release-23.11";
+        url = "github:danth/stylix/release-24.05";
         inputs.nixpkgs.follows = "stable";
         inputs.home-manager.follows = "home";
       };

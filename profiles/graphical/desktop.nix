@@ -49,7 +49,7 @@ in
   };
 
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       fira-code
       font-awesome
       aileron
@@ -78,6 +78,7 @@ in
   };
 
   stylix = {
+    enable = true;
     polarity = "light";
     image = ./wallpaper.png;
     fonts = {

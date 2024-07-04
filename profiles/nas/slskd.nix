@@ -21,7 +21,7 @@ in
       enable = true;
       openFirewall = true;
       environmentFile = config.age.secrets.slskd-environment.path;
-      nginx = {};
+      domain = null;
       settings = {
         web.port = 5030;
         soulseek = {

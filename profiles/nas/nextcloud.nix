@@ -22,7 +22,7 @@ in
     };
 
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud26Packages.apps;{
+    extraApps = with pkgs.nextcloud27Packages.apps;{
       inherit bookmarks calendar contacts deck files_texteditor
         groupfolders mail news notes polls spreed tasks;
     };
