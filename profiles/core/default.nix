@@ -26,7 +26,7 @@ in
 
   users.mutableUsers = false;
 
-  environment.systemPackages = [ pkgs.neovim ];
-  environment.variables.EDITOR = "nvim";
+  environment.systemPackages = [ pkgs.helix ];
+  environment.variables.EDITOR = "hx";
 
 }

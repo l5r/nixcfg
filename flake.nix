@@ -4,9 +4,9 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-24.05";
+      stable.url = "nixpkgs/nixos-24.11";
       home = {
-        url = "github:nix-community/home-manager/release-24.05";
+        url = "github:nix-community/home-manager/release-24.11";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
@@ -144,6 +144,16 @@
         modules = [
           home.darwinModules.home-manager
           ./darwinConfigurations/ligma.nix
+        ];
+      };
+
+      hosts.smugjug = {
+        system = flake-utils-plus.lib.system.aarch64-darwin;
+        output = "darwinConfigurations";
+        builder = nix-darwin.lib.darwinSystem;
+        modules = [
+          home.darwinModules.home-manager
+          ./darwinConfigurations/smugjug.nix
         ];
       };
 

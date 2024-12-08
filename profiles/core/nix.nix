@@ -2,12 +2,12 @@
 
   nix = {
     gc.automatic = true;
+    optimise.automatic = true;
 
     settings = {
       sandbox = true;
       allowed-users = [ "@wheel" "@staff" "@admin" ];
       trusted-users = [ "root" "@wheel" "@staff" "@admin" ];
-      auto-optimise-store = true;
     };
 
     extraOptions = ''

@@ -1,36 +1,34 @@
 { config, pkgs, lib, ... }: {
   homebrew = {
+    enable = true;
     onActivation = {
-      enable = true;
       cleanup = "uninstall";
     };
-    brewPrefix = "/opt/homebrew/bin";
+    # brewPrefix = "/opt/homebrew/bin";
 
     casks = [
-      # "bitwarden"
-      "betterdummy"
-      "discord"
+      "bitwarden"
+      # "betterdummy"
+      # "discord"
       "firefox"
       "google-drive"
+      "jellyfin"
       "libreoffice"
       "microsoft-office"
-      "microsoft-teams"
-      # "musicbrainz-picard"
-      "nextcloud"
-      # "openzfs"
-      # "playonmac"
-      "remarkable"
+      # "microsoft-teams"
+      # "nextcloud"
       "spotify"
       "steam"
-      "vimr"
       "vlc"
-      # "webtorrent"
-      "zoom"
+      "zerotier-one"
+      # "zoom"
     ];
 
     masApps = {
-      bitwarden = 1352778147;
-      messenger = 1480068668;
+      whatsapp = 310633997;
+      remarkable = 1276493162;
+      # bitwarden = 1352778147;
+      # messenger = 1480068668;
     };
   };
 }

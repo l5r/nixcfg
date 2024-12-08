@@ -2,7 +2,7 @@
 {
   config = lib.mkMerge [
     (
-      lib.optionalAttrs (builtins.hasAttr "loginShell" options.environment) {
+      lib.optionalAttrs (builtins.hasAttr "loginShell" options.environment && false) {
         environment.loginShell = "${pkgs.fish}/bin/fish";
       }
     )
@@ -55,8 +55,9 @@
         shellAliases =
           let
             ifSudo = lib.mkIf (
-              lib.hasAttr "sudo" config.security &&
-              config.security.sudo.enable
+              (lib.hasAttr "sudo" config.security) && (
+		(lib.hasAttr "enable" config.security.sudo) &&
+                  config.security.sudo.enable)
             );
           in
           {

@@ -16,7 +16,7 @@ in
   ];
 
   environment.systemPackages = [
-    pkgs.neovim
+    pkgs.helix
   ];
 
   nix.extraOptions = ''
