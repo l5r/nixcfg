@@ -2,12 +2,12 @@
   environment.systemPackages = with pkgs; [
 
     # system utilities
-    gnome3.file-roller
+    gnome.file-roller
     pantheon.elementary-code
     pantheon.elementary-terminal
     pantheon.pantheon-agent-polkit
     gnome-usage
-    xdg_utils
+    xdg-utils
 
     # applications
     pantheon.elementary-photos
@@ -15,7 +15,6 @@
     pantheon.elementary-music
     pantheon.elementary-calculator
     pantheon.elementary-calendar
-    gnome3.geary
     libreoffice
 
     # spotify

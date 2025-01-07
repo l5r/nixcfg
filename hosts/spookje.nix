@@ -33,7 +33,6 @@
   # virtualisation.docker.enable = true;
 
   hardware.opengl = {
-    driSupport = true;
     extraPackages = [
       pkgs.amdvlk
       pkgs.vaapiVdpau
@@ -47,7 +46,6 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
   system.stateVersion = "20.09";
 

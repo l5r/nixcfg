@@ -5,14 +5,14 @@ let
 in
 {
 
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixVersions.stable;
 
   imports = [
     ./nix.nix
     ./shell.nix
 
     ../../local/locale.nix
-    ../../modules/neovim.nix
+    # ../../modules/neovim.nix
   ];
 
 

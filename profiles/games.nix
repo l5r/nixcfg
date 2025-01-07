@@ -15,7 +15,6 @@
     vaapiVdpau
   ];
 
-  hardware.opengl.driSupport = true;
   hardware.opengl.extraPackages = with pkgs; [
     mesa
     libva

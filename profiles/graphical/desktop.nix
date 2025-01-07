@@ -28,7 +28,7 @@ in
     # cosmetic
     hicolor-icon-theme
     pantheon.elementary-icon-theme
-    gnome3.adwaita-icon-theme
+    gnome.adwaita-icon-theme
     elementary-xfce-icon-theme
   ];
 
@@ -36,7 +36,6 @@ in
   services.gnome = {
     gnome-keyring.enable = true;
     gnome-online-accounts.enable = true;
-    core-os-services.enable = true;
   };
   services.gvfs.enable = true;
   services.pantheon.contractor.enable = true;
@@ -55,7 +54,7 @@ in
       aileron
       tenderness
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       dejavu_fonts
       liberation_ttf
