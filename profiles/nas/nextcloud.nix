@@ -11,7 +11,7 @@ in
     enable = true;
     hostName = "nextcloud.${secrets.virtualHostnames.external.hostname}";
     https = true;
-    package = pkgs.nextcloud27;
+    package = pkgs.nextcloud28;
 
     home = "${config.my.paths.systemData}/var/lib/nextcloud";
 
@@ -22,14 +22,14 @@ in
     };
 
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud27Packages.apps;{
-      inherit bookmarks calendar contacts deck files_texteditor
-        groupfolders mail news notes polls spreed tasks;
+    extraApps = with pkgs.nextcloud28Packages.apps;{
+      inherit bookmarks calendar contacts deck
+        groupfolders mail notes polls spreed tasks;
     };
 
     caching.redis = true;
     caching.apcu = true;
-    extraOptions = {
+    settings = {
       redis = {
         host = "/run/redis-nextcloud/redis.sock";
         port = 0;

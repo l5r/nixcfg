@@ -5,6 +5,7 @@
     {
       unstable.url = "nixpkgs/nixos-unstable";
       stable.url = "nixpkgs/nixos-24.11";
+      nixos-24-05.url = "nixpkgs/nixos-24.05";
       home = {
         url = "github:nix-community/home-manager/release-24.11";
         inputs.nixpkgs.follows = "stable";
@@ -17,12 +18,7 @@
         url = "github:gytis-ivaskevicius/flake-utils-plus";
       };
 
-      bestellinator = {
-        url = "github:l5r/bestellinator";
-        inputs = {
-          nixpkgs.follows = "stable";
-        };
-      };
+      colmena-flake.url = "github:zhaofengli/colmena";
 
       impermanence.url = "github:nix-community/impermanence";
       agenix = {
@@ -42,10 +38,11 @@
 
   outputs =
     inputs@{ self
-    , bestellinator
+    , colmena-flake
     , flake-utils-plus
     , home
     , impermanence
+    , nixos-24-05
     , nix-darwin
     , stable
     , stylix
@@ -71,39 +68,23 @@
         overlaysBuilder = channels: [
           agenix.overlays.default
           (import ./overlays/pkgs.nix)
-          (final: prev: {
-            bestellinator = bestellinator.packages.${channels.nixpkgs.system}.bestellinator;
-          })
           (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
+          # Downgrade transmission 4 to 4.0.5
+          (final: prev: { inherit (channels.nixos-24-05) transmission_4; })
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })
-          (import ./overlays/beets-plugins.nix)
-          (final: prev: {
-            beetsPackages = prev.beetsPackages // {
-              beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
-                (prev: {
-                  patches = prev.patches ++ [
-                    ./patches/beets-lossless-codecs.patch
-                  ];
-                });
-            };
-          })
-          (final: prev: {
-            gonic = prev.gonic.override {
-              buildGoModule = args: channels.unstable.buildGoModule (args // rec {
-                version = "0.16.0";
-                src = final.fetchFromGitHub {
-                  owner = "sentriz";
-                  repo = "gonic";
-                  rev = "v${version}";
-                  sha256 = "sha256-BkO6PIUoUHpEDnxCNSvLcLN5LGjaJfyhYLFARnG1JHY=";
-                };
-                vendorHash = "sha256-wRX6l56kbYiH4QaxzMaPKeaJJ3h48+Xr2KGKqPBIDoo=";
-                doCheck = false;
-              });
-            };
-          })
+          # (import ./overlays/beets-plugins.nix)
+          # (final: prev: {
+          #   beetsPackages = prev.beetsPackages // {
+          #     beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
+          #       (prev: {
+          #         patches = prev.patches ++ [
+          #           ./patches/beets-lossless-codecs.patch
+          #         ];
+          #       });
+          #   };
+          # })
         ];
       };
 
@@ -181,6 +162,8 @@
           ];
         };
       };
+
+      colmenaHive = colmena-flake.lib.makeHive self.outputs.colmena;
 
       colmena = {
         meta = {

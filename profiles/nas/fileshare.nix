@@ -27,25 +27,22 @@ in
   services.samba = {
     enable = true;
     openFirewall = true;
-    securityType = "user";
-    extraConfig = ''
-      hosts allow = 192.168.1.0/24 172.24.0.0/16 127.0.0.1 ::1
-      hosts deny = 0.0.0.0/0
-      interfaces = 192.168.1.0/24 172.24.0.0/16
-      # server smb encrypt = no
-      server max protocol = SMB3
-      server min protocol = SMB3_00
-      map to guest = bad user
-      guest account = media
-
-      server string = storig
-      netbios name = storig
-
-      use sendfile = yes
-      fruit:copyfile = yes
-    '';
-
-    shares = {
+    settings = {
+      global = {
+        security = "user";
+        "hosts allow" = "192.168.1.0/24 172.24.0.0/16 127.0.0.1 ::1";
+        "hosts deny" = "0.0.0.0/0";
+        "interfaces" = "192.168.1.0/24 172.24.0.0/16";
+        # "server smb encrypt" = "no";
+        "server max protocol" = "SMB3";
+        "server min protocol" = "SMB3_00";
+        "map to guest" = "bad user";
+        "guest account" = "media";
+        "server string" = "storig";
+        "netbios name" = "storig";
+        "use sendfile" = "yes";
+        "fruit:copyfile" = "yes";
+      };
       media = {
         path = "/media/naspool1/media";
         browseable = "yes";

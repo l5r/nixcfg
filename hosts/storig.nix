@@ -18,6 +18,15 @@ in
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  # For Sonarr
+  # TODO: remove when unnecessary
+  nixpkgs.config.permittedInsecurePackages = [
+    "aspnetcore-runtime-6.0.36"
+    "aspnetcore-runtime-wrapped-6.0.36"
+    "dotnet-sdk-6.0.428"
+    "dotnet-sdk-wrapped-6.0.428"
+  ];
+
   users.users.root = userConfig;
   # users.users.leander = userConfig;
 
@@ -169,19 +178,15 @@ in
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
     extraPackages = with pkgs; [
       vaapiVdpau
       libvdpau-va-gl
-      rocm-opencl-icd
-      rocm-opencl-runtime
     ];
   };
 

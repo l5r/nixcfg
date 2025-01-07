@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, channels, config, ... }:
 let
   secrets = import ../../secrets/default.nix;
   torrentDir = "/media/naspool1/media/Download/Torrent";
@@ -49,7 +49,7 @@ in
         services.transmission = {
           enable = true;
           group = "media";
-          package = pkgs.transmission_4;
+          package = channels.${pkgs.system}.nixpkgs.transmission_4;
           home = torrentDir;
           downloadDirPermissions = "775";
           openPeerPorts = true;
