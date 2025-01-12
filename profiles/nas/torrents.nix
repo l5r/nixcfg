@@ -65,9 +65,9 @@ in
             rpc-host-whitelist = "storig,transmission.${secrets.virtualHostnames.internal.hostname}";
             rpc-bind-address = "10.1.1.2";
 
-            speed-limit-down = 500;
-            speed-limit-down-enabled = true;
-            speed-limit-up = 500;
+            speed-limit-down = 1024;
+            speed-limit-down-enabled = false;
+            speed-limit-up = 1024;
             speed-limit-up-enabled = true;
           };
         };
