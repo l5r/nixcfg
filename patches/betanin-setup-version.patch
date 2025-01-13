@@ -1,6 +1,0 @@
---- /setup.py
-+++ /setup.py
-@@ -86,2 +86,1 @@
--    with open("version.txt") as version_file:
--        return f"v{version_file.read()}"
-+    return "v%BETANIN_VERSION%"

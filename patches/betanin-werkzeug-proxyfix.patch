@@ -1,5 +1,0 @@
---- /betanin/application.py
-+++ /betanin/application.py
-@@ -5,1 +5,1 @@
--from werkzeug.contrib.fixers import ProxyFix
-+from werkzeug.middleware.proxy_fix import ProxyFix
