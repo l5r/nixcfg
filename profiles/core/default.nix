@@ -26,7 +26,7 @@ in
 
   users.mutableUsers = false;
 
-  environment.systemPackages = [ pkgs.helix ];
+  environment.systemPackages = [ pkgs.helix pkgs.nil ];
   environment.variables.EDITOR = "hx";
 
 }

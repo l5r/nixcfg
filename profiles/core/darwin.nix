@@ -17,6 +17,7 @@ in
 
   environment.systemPackages = [
     pkgs.helix
+    pkgs.nil
   ];
 
   nix.extraOptions = ''

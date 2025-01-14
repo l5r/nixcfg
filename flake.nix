@@ -1,6 +1,15 @@
 {
   description = "A highly structured configuration database.";
 
+  nixConfig = {
+    extra-substituters = [
+      "https://colmena.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+    ];
+  };
+
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
@@ -74,17 +83,7 @@
           (final: prev: {
             vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
           })
-          # (import ./overlays/beets-plugins.nix)
-          # (final: prev: {
-          #   beetsPackages = prev.beetsPackages // {
-          #     beets-stable = prev.beetsPackages.beets-stable.overridePythonAttrs
-          #       (prev: {
-          #         patches = prev.patches ++ [
-          #           ./patches/beets-lossless-codecs.patch
-          #         ];
-          #       });
-          #   };
-          # })
+          colmena-flake.overlays.default
         ];
       };
 
@@ -149,8 +148,6 @@
         inherit channels;
 
         packages = flake-utils-plus.lib.exportPackages self.overlays channels // {
-          inherit (channels.nixpkgs) ffmpegfs;
-          inherit (channels.nixpkgs.beetsPackages) beets-bpmanalyser;
         };
 
         devShell = channels.nixpkgs.mkShell {
@@ -159,6 +156,7 @@
             channels.nixpkgs.rage
             channels.nixpkgs.git-crypt
             channels.nixpkgs.colmena
+            channels.nixpkgs.nil
           ];
         };
       };
