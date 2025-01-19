@@ -19,15 +19,10 @@ in
     pkgs.helix
     pkgs.nil
   ];
+  environment.variables.EDITOR = "hx";
 
   nix.extraOptions = ''
     extra-platforms = x86_64-darwin aarch64-darwin
   '';
-
-  # nixpkgs.overlays = [
-  #   (self: super: {
-  #    inherit (pkgs-x86_64) haskell haskellPackages pandoc httpie;
-  #   })
-  # ];
 
 }

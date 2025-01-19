@@ -12,7 +12,7 @@
       # "discord"
       "firefox"
       "google-drive"
-      "jellyfin"
+      "jellyfin-media-player"
       "libreoffice"
       "microsoft-office"
       # "microsoft-teams"
