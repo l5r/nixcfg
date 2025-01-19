@@ -32,7 +32,7 @@
   rootless.enable = true;
   # virtualisation.docker.enable = true;
 
-  hardware.opengl = {
+  hardware.graphics = {
     extraPackages = [
       pkgs.amdvlk
       pkgs.vaapiVdpau

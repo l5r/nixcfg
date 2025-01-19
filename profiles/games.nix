@@ -8,14 +8,14 @@
 
   # Steam is 32-bit
   hardware.pulseaudio.support32Bit = true;
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [
+  hardware.graphics.enable32Bit = true;
+  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
     mesa
     libva
     vaapiVdpau
   ];
 
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     mesa
     libva
     vaapiVdpau

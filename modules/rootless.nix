@@ -73,7 +73,7 @@ in
         device = cfg.zfsPart;
       };
 
-      boot.initrd.postDeviceCommands = lib.mkAfter ''
+      boot.initrd.postResumeCommands = lib.mkAfter ''
         zfs rollback -r ${cfg.zfsPart}@blank
       '';
     };

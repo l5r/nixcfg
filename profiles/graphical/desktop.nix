@@ -28,7 +28,7 @@ in
     # cosmetic
     hicolor-icon-theme
     pantheon.elementary-icon-theme
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
     elementary-xfce-icon-theme
   ];
 

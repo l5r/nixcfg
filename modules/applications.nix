@@ -2,9 +2,7 @@
   environment.systemPackages = with pkgs; [
 
     # system utilities
-    gnome.file-roller
-    pantheon.elementary-code
-    pantheon.elementary-terminal
+    file-roller
     pantheon.pantheon-agent-polkit
     gnome-usage
     xdg-utils
