@@ -11,7 +11,7 @@ in
     enable = true;
     hostName = "nextcloud.${secrets.virtualHostnames.external.hostname}";
     https = true;
-    package = pkgs.nextcloud28;
+    package = pkgs.nextcloud29;
 
     home = "${config.my.paths.systemData}/var/lib/nextcloud";
 
