@@ -19,7 +19,7 @@
     ];
 
     users = lib.optionalAttrs pkgs.stdenv.isLinux {
-      defaultShell = pkgs.fish;
+      defaultUserShell = pkgs.fish;
     };
 
     programs.fish.enable = true;
