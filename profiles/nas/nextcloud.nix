@@ -11,7 +11,7 @@ in
     enable = true;
     hostName = "nextcloud.${secrets.virtualHostnames.external.hostname}";
     https = true;
-    package = pkgs.nextcloud29;
+    package = pkgs.nextcloud30;
 
     home = "${config.my.paths.systemData}/var/lib/nextcloud";
 
@@ -22,7 +22,7 @@ in
     };
 
     extraAppsEnable = true;
-    extraApps = with pkgs.nextcloud28Packages.apps;{
+    extraApps = with pkgs.nextcloud30Packages.apps;{
       inherit bookmarks calendar contacts deck
         groupfolders mail notes polls spreed tasks;
     };

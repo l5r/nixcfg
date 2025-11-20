@@ -39,13 +39,6 @@ in
   };
   services.gvfs.enable = true;
   services.pantheon.contractor.enable = true;
-  services.gsignond = {
-    enable = true;
-    plugins = with pkgs; [
-      gsignondPlugins.mail
-      gsignondPlugins.oauth
-    ];
-  };
 
   fonts = {
     packages = with pkgs; [

@@ -7,7 +7,7 @@
   ];
 
   # Steam is 32-bit
-  hardware.pulseaudio.support32Bit = true;
+  services.pulseaudio.support32Bit = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
     mesa

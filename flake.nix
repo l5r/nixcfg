@@ -13,14 +13,19 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-24.11";
+      stable.url = "nixpkgs/nixos-25.05";
       nixos-24-05.url = "nixpkgs/nixos-24.05";
+      nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+      disko = {
+        url = "github:nix-community/disko/latest";
+        inputs.nixpkgs.follows = "stable";
+      };
       home = {
-        url = "github:nix-community/home-manager/release-24.11";
+        url = "github:nix-community/home-manager/release-25.05";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
-        url = "github:lnl7/nix-darwin/nix-darwin-24.11";
+        url = "github:lnl7/nix-darwin/nix-darwin-25.05";
         inputs.nixpkgs.follows = "stable";
       };
       flake-utils-plus = {
@@ -39,7 +44,7 @@
       };
 
       stylix = {
-        url = "github:danth/stylix/release-24.11";
+        url = "github:danth/stylix/release-25.05";
         inputs.nixpkgs.follows = "stable";
         inputs.home-manager.follows = "home";
       };
@@ -47,16 +52,18 @@
 
   outputs =
     inputs@{ self
+    , agenix
     , colmena-flake
+    , disko
     , flake-utils-plus
     , home
     , impermanence
-    , nixos-24-05
     , nix-darwin
+    , nixos-24-05
+    , nixos-hardware
     , stable
     , stylix
     , unstable
-    , agenix
     }:
     let
       linuxModules = [
@@ -111,6 +118,12 @@
         ./hosts/storig.nix
         impermanence.nixosModule
         agenix.nixosModules.age
+      ];
+
+      hosts.rpio-leander.modules = linuxModules ++ [
+        ./hosts/rpio-leander.nix
+        disko.nixosModules.disko
+        nixos-hardware.nixosModules.${secrets.hardware.rpio-leander}
       ];
 
       hosts.niximg.modules = [
