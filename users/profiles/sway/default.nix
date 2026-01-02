@@ -42,6 +42,17 @@ with rec {
     commands.windowSelect
     rmdisp
   ];
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 24;
+    x11 = {
+      enable = true;
+      defaultCursor = "Adwaita";
+    };
+    sway.enable = true;
+    gtk.enable = true;
+  };
   wayland.windowManager.sway = {
     enable = true;
     # Have NixOS install sway instead

@@ -5,6 +5,10 @@ in
   home-manager.users.leander = {
     imports = [
       ../profiles/default.nix
+      {
+        programs.git.userName = "Leander Lismond";
+        programs.git.userEmail = "36822732+l5r@users.noreply.github.com";
+      }
     ];
   };
   users.users.leander = {

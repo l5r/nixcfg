@@ -1,10 +1,9 @@
-
 * {
   border: none;
   border-radius: 0;
   /* `otf-font-awesome` is required to be installed for icons */
-  font-family: Aileron, Roboto, Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-family: Aileron, Roboto, Helvetica, Arial, 'Font Awesome 6 Free', sans-serif;
+  font-size: 16px;
   min-height: 0;
 }
 
@@ -24,6 +23,10 @@
   margin: 0 1rem;
 }
 
+#workspaces button {
+  font-weight: 300;
+}
+
 #workspaces button.focused,
 #workspaces button.urgent {
   font-weight: bold;
@@ -33,4 +36,3 @@
 #workspaces button.urgent {
   color: #ee2222;
 }
-

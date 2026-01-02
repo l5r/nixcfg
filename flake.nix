@@ -88,7 +88,7 @@
           # Downgrade transmission 4 to 4.0.5
           (final: prev: { inherit (channels.nixos-24-05) transmission_4; })
           (final: prev: {
-            vaapiIntel = prev.vaapiIntel.override { enableHybridCodec = true; };
+            intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
           })
           colmena-flake.overlays.default
         ];

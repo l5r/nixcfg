@@ -4,6 +4,7 @@ let secrets = import ../../secrets; in
     ../profiles/sway
     # ../profiles/neovim
     ../profiles/fish.nix
+    ../profiles/helix.nix
     ../profiles/state-version.nix
   ];
   users.users.root.hashedPassword = secrets.root.hashedPassword;

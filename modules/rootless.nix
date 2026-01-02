@@ -58,15 +58,7 @@ in
     in
     lib.mkIf cfg.enable {
 
-      link = {
-        enable = true;
-        farms = [
-          {
-            dir = cfg.persistDir;
-            paths = dataPaths;
-          }
-        ];
-      };
+      environment.persistence.${cfg.persistDir}.directories = dataPaths;
 
       fileSystems."/" = {
         fsType = "zfs";

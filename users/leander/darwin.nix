@@ -11,6 +11,7 @@ in
   home-manager.users.leander = {
     imports = [
       ../profiles/fish.nix
+      ../profiles/helix.nix
       # ../profiles/neovim
       ../profiles/state-version.nix
     ];

@@ -1,5 +1,7 @@
-{ config, pkgs, ... }: {
+{ lib, config, pkgs, ... }: {
   programs.waybar = {
+    enable = true;
+    
     settings = [
 
       # Main bar
@@ -10,6 +12,31 @@
         modules-right = ["tray" "pulseaudio" "idle_inhibitor" "battery" "clock"];
         "sway/window" = {
           max-length = 50;
+        };
+        pulseaudio = {
+          "format" = "{volume}% {icon}";
+          "format-bluetooth" = "{volume}% {icon}";
+          "format-muted" = "";
+          "format-icons" = {
+            "headphone" = "";
+            "hands-free" = "";
+            "headset" = "";
+            "phone" = "";
+            "phone-muted" = "";
+            "portable" = "";
+            "car" = "";
+            "default" = ["" ""];
+          };
+          "scroll-step" = 1;
+          "on-click" = "pavucontrol";
+          "ignored-sinks" = ["Easy Effects Sink"];
+        };
+        idle_inhibitor = {
+          format = "{icon}";
+          format-icons = {
+            activated = "";
+            deactivated = "";
+          };
         };
         battery = {
           format = "{capacity}% {icon}";
@@ -23,9 +50,10 @@
     ];
 
     systemd.enable = true;
+    style = lib.readFile ./waybar.css;
 
   };
 
-  xdg.configFile."waybar/style.css".source = ./waybar.css;
+  # xdg.configFile."waybar/style.css".source = ./waybar.css;
 
 }

@@ -19,6 +19,10 @@
     shellAbbrs = {
       r = "ranger";
       nrs = "sudo nixos-rebuild switch";
+      dc = "docker compose";
+      dcu = "docker compose up";
+      dcd = "docker compose down";
+      dcr = "docker compose restart";
     };
 
     functions = {
@@ -43,6 +47,10 @@
   };
 
   programs.fzf = {
+    enable = true;
+  };
+
+  programs.git = {
     enable = true;
   };
 }

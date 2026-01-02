@@ -70,6 +70,7 @@ in
       wofi
       wl-clipboard
       # wlogout
+      adwaita-icon-theme
     ];
     extraSessionCommands = ''
       export SDL_VIDEODRIVER=wayland

@@ -10,6 +10,7 @@
     ../profiles/core
     ../profiles/graphical
     ../profiles/eid.nix
+    ../profiles/rpio.nix
     ../modules/applications.nix
 
     ../modules/rootless.nix
@@ -47,6 +48,14 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   services.fwupd.enable = true;
+  services.fprintd.enable = true;
+  home-manager.sharedModules = [{
+    wayland.windowManager.sway = {
+      config.output."eDP-1" = {
+        scale = "1.75";
+      };
+    };
+  }];
 
   rootless = {
     enable = true;
@@ -157,7 +166,7 @@
           xattr = "sa";
           "com.sun:auto-snapshot" = "false";
         };
-        
+
         datasets = {
           "secure" = {
             type = "zfs_fs";
