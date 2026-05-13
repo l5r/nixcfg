@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
-    pavucontrol
+    pwvucontrol
     sbc # bluetooth codec
   ];
 

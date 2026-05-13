@@ -34,8 +34,8 @@ in
 
   programs.dconf.enable = true;
   services.gnome = {
-    gnome-keyring.enable = true;
-    gnome-online-accounts.enable = true;
+    # gnome-keyring.enable = true;
+    # gnome-online-accounts.enable = true;
   };
   services.gvfs.enable = true;
   services.pantheon.contractor.enable = true;
@@ -48,12 +48,12 @@ in
       tenderness
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       dejavu_fonts
       liberation_ttf
 
       corefonts
-      vistafonts
+      vista-fonts
 
       google-fonts
     ];
@@ -72,7 +72,7 @@ in
   stylix = {
     enable = true;
     polarity = "light";
-    image = ./wallpaper.png;
+    image = ./wallpaper.jpg;
     fonts = {
       sansSerif = {
         package = pkgs.aileron;

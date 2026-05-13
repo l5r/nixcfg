@@ -30,7 +30,7 @@
     };
 
   rootless.enable = true;
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
 
   hardware.graphics = {
     extraPackages = [

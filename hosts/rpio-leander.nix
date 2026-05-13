@@ -9,6 +9,7 @@
     ../profiles/networking/printing.nix
     ../profiles/core
     ../profiles/graphical
+    ../profiles/laptop.nix
     ../profiles/eid.nix
     ../profiles/rpio.nix
     ../modules/applications.nix
@@ -29,8 +30,12 @@
   boot.loader.generationsDir.copyKernels = true;
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 20;
+  # boot.loader.grub.enable = false;
+  # boot.loader.refind.enable = true;
+  # boot.loader.refind.maxGenerations = 20;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
+  boot.zfs.package = pkgs.zfs_2_4;
 
   system.stateVersion = "25.05";
 

@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }: {
   programs.waybar = {
     enable = true;
-    
+
     settings = [
 
       # Main bar
@@ -50,6 +50,7 @@
     ];
 
     systemd.enable = true;
+    systemd.target = "sway-session.target";
     style = lib.readFile ./waybar.css;
 
   };

@@ -4,6 +4,14 @@
     ./desktop.nix
     ./audio.nix
     ./sway.nix
-    ./greetd.nix
+    ./niri.nix
+    # ./greetd.nix
   ];
+
+  programs.dank-material-shell = {
+    greeter = {
+      enable = true;
+      compositor.name = "niri";
+    };
+  };
 }

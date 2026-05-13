@@ -29,4 +29,8 @@ in
   environment.systemPackages = [ pkgs.helix pkgs.nil ];
   environment.variables.EDITOR = "hx";
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+  };
 }

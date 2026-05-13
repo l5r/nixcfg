@@ -13,7 +13,7 @@
   inputs =
     {
       unstable.url = "nixpkgs/nixos-unstable";
-      stable.url = "nixpkgs/nixos-25.05";
+      stable.url = "nixpkgs/nixos-25.11";
       nixos-24-05.url = "nixpkgs/nixos-24.05";
       nixos-hardware.url = "github:NixOS/nixos-hardware/master";
       disko = {
@@ -21,11 +21,11 @@
         inputs.nixpkgs.follows = "stable";
       };
       home = {
-        url = "github:nix-community/home-manager/release-25.05";
+        url = "github:nix-community/home-manager/release-25.11";
         inputs.nixpkgs.follows = "stable";
       };
       nix-darwin = {
-        url = "github:lnl7/nix-darwin/nix-darwin-25.05";
+        url = "github:lnl7/nix-darwin/nix-darwin-25.11";
         inputs.nixpkgs.follows = "stable";
       };
       flake-utils-plus = {
@@ -44,9 +44,16 @@
       };
 
       stylix = {
-        url = "github:danth/stylix/release-25.05";
+        url = "github:danth/stylix/release-25.11";
         inputs.nixpkgs.follows = "stable";
-        inputs.home-manager.follows = "home";
+      };
+      dms = {
+        url = "github:AvengeMedia/DankMaterialShell/stable";
+        inputs.nixpkgs.follows = "stable";
+      };
+      niri = {
+        url = "github:sodiboo/niri-flake";
+        inputs.nixpkgs.follows = "stable";
       };
     };
 
@@ -55,9 +62,11 @@
     , agenix
     , colmena-flake
     , disko
+    , dms
     , flake-utils-plus
     , home
     , impermanence
+    , niri
     , nix-darwin
     , nixos-24-05
     , nixos-hardware
@@ -71,6 +80,8 @@
         stylix.nixosModules.stylix
         impermanence.nixosModule
         agenix.nixosModules.age
+        niri.nixosModules.niri
+        dms.nixosModules.greeter
       ];
       secrets = import ./secrets;
     in
@@ -84,7 +95,7 @@
         overlaysBuilder = channels: [
           agenix.overlays.default
           (import ./overlays/pkgs.nix)
-          (final: prev: { inherit (channels.unstable) /* Unstable packages here */; })
+          (final: prev: { inherit (channels.unstable) dgop rocketchat-desktop; /* Unstable packages here */ })
           # Downgrade transmission 4 to 4.0.5
           (final: prev: { inherit (channels.nixos-24-05) transmission_4; })
           (final: prev: {

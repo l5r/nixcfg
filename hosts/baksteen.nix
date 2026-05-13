@@ -5,8 +5,11 @@
     ../users/root
 
     ../profiles/laptop.nix
+    ../profiles/networking
+    ../profiles/graphical
     ../profiles/devel/racket.nix
     ../modules/zfs.nix
+    ../modules/rootless.nix
     ../modules/applications.nix
     ../profiles/teams.nix
   ];

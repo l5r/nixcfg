@@ -9,7 +9,7 @@
   config = {
     programs.ssh = lib.mkMerge [
       (lib.optionalAttrs pkgs.stdenv.isLinux {
-        startAgent = true;
+        # startAgent = true;
       })
       {
         extraConfig = ''

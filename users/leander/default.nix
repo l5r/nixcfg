@@ -1,10 +1,12 @@
 let
   secrets = import ../../secrets;
 in
-{ pkgs, config, lib, ... }@args: {
+{ pkgs, config, lib, inputs, ... }@args: {
   home-manager.users.leander = {
     imports = [
       ../profiles/default.nix
+      inputs.dms.homeModules.dank-material-shell
+      inputs.dms.homeModules.niri
       {
         programs.git.userName = "Leander Lismond";
         programs.git.userEmail = "36822732+l5r@users.noreply.github.com";

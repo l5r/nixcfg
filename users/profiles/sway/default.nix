@@ -9,7 +9,7 @@ with rec {
       #!${pkgs.stdenv.shell}
 
         jq_query='.. | select(.type? =="workspace" and .num?) | .num as $num | .nodes | .. | select(.name? and .type == "con") | .num = $num | (.id | tostring) + "\t[" + (.num | tostring) + "] " + .name'
-      
+
       ${pkgs.sway}/bin/swaymsg -t get_tree | \
         ${pkgs.jq}/bin/jq -r "$jq_query" | \
         ${pkgs.fzf}/bin/fzf --with-nth 2.. | \
@@ -112,7 +112,7 @@ with rec {
           "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle";
           "XF86AudioMicMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute @DEFAULT_SOURCE@ toggle";
           "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
-          "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set +5%";
+          "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
           "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
           "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
           "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
