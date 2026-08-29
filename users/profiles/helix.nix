@@ -10,12 +10,32 @@
         trim-trailing-whitespace = true;
         lsp = {
           display-inlay-hints = true;
+          inlay-hints-length-limit = 10;
         };
       };
     };
 
     languages = {
-      language = [
+      language = let
+        withPrettierFormatter = name: {
+          inherit name;
+          formatter = {
+            command = "prettier";
+            args = ["--parser" name];
+          };
+        };
+      in [
+        (withPrettierFormatter "html")
+        (withPrettierFormatter "css")
+        (withPrettierFormatter "scss")
+        (withPrettierFormatter "typescript")
+        {
+          name = "javascript";
+          formatter = {
+            command = "prettier";
+            args = ["--parser" "typescript"];
+          };
+        }
         {
           name = "turtle";
           scope = "source.turtle";
