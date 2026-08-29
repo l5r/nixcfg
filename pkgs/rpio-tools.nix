@@ -1,4 +1,5 @@
-{ symlinkJoin,
+{
+  symlinkJoin,
   mu-cli,
 
   docker-compose,
@@ -14,13 +15,22 @@
 
   ruff,
   ty,
+  pyshacl,
+  python3,
   python3Packages,
 
   ruby,
   rubocop,
   solargraph,
-  ruby-lsp
-}: symlinkJoin {
+  ruby-lsp,
+}:
+let
+  python = python3.withPackages (ps: [
+    ps.rdflib
+    pyshacl
+  ]);
+in
+symlinkJoin {
   name = "rpio-tools";
   paths = [
     mu-cli
@@ -36,7 +46,7 @@
     typescript-language-server
     vscode-langservers-extracted
 
-    python3Packages.python
+    python
     ruff
     ty
     python3Packages.python-lsp-server
