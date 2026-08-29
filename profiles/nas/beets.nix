@@ -26,7 +26,7 @@ let
       write = true;
       copy = true;
       # reflink = "auto";
-      incremental = true;
+      incremental = false;
       log = "${beetsDirectory}/import.log";
       languages = "nl fr en";
     };
@@ -37,7 +37,8 @@ let
     };
 
     plugins = [
-      "bpmanalyser"
+      "musicbrainz"
+      # "bpmanalyser"
       # "chroma"
       "convert"
       "duplicates"

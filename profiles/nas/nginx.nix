@@ -87,7 +87,6 @@ in
 
   security.acme = lib.recursiveUpdate secrets.acme {
     acceptTerms = true;
-    preliminarySelfsigned = true;
     defaults.credentialsFile = config.age.secrets.acme-credentials.path;
   };
 

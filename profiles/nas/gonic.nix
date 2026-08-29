@@ -31,7 +31,7 @@ in {
       requires = [ "media-naspool1-media.mount" ];
     in [{
       what = "${gonicDir}";
-      where = "/var/lib/private/gonic";
+      where = "/var/lib/gonic";
       requires = requires;
       after = requires;
       requiredBy = ["gonic.service"];

@@ -1,12 +1,5 @@
-{ config, lib, pkgs, ... }:
-let
-  inherit (lib) fileContents;
-
-in
+{ config, lib, pkgs, options, ... }:
 {
-
-  nix.package = pkgs.nixVersions.stable;
-
   imports = [
     ./nix.nix
     ./shell.nix
@@ -14,23 +7,33 @@ in
     ../../local/locale.nix
     # ../../modules/neovim.nix
   ];
+} //
+lib.mkMerge [
+  {
 
+    nix.package = pkgs.nixVersions.stable;
 
-  security = {
+    security = {
 
-    protectKernelImage = true;
+      protectKernelImage = true;
 
-  };
+    };
 
-  services.earlyoom.enable = true;
+    services.earlyoom.enable = true;
 
-  users.mutableUsers = false;
+    users.mutableUsers = false;
 
-  environment.systemPackages = [ pkgs.helix pkgs.nil ];
-  environment.variables.EDITOR = "hx";
+    environment.systemPackages = [ pkgs.helix pkgs.nil ];
+    environment.variables.EDITOR = "hx";
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-  };
-}
+  }  
+  (
+    lib.optionalAttrs (builtins.hasAttr "home-manager" options) {
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+      };
+    }
+  )
+]
+

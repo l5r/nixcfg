@@ -5,7 +5,7 @@ in
   imports = [
     # ./bestellinator.nix
     ./portunus.nix
-    ./nextcloud.nix
+    # ./nextcloud.nix
     # ./nocodb.nix
     # ./unifi.nix
   ];
