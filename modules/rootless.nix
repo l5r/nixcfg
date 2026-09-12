@@ -17,6 +17,7 @@ let
       lib.mkIf config.services.zerotierone.enable
         [ "/var/lib/zerotier-one" ]
     )
+    ["/var/lib/nixos"]
   ];
   cfg = config.rootless;
 in

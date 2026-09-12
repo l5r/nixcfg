@@ -12,13 +12,13 @@
   hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
     mesa
     libva
-    vaapiVdpau
+    libva-vdpau-driver
   ];
 
   hardware.graphics.extraPackages = with pkgs; [
     mesa
     libva
-    vaapiVdpau
+    libva-vdpau-driver
   ];
 
   fileSystems."/mnt/steam" = {

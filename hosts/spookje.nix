@@ -22,6 +22,7 @@
   networking.hostId = "deadbeef";
 
   services.zfs.autoReplication.identityFilePath = ../secrets/zbackup_spookje_id_rsa;
+  boot.zfs.forceImportRoot = false;
 
   fileSystems."/boot" =
     {
@@ -34,8 +35,7 @@
 
   hardware.graphics = {
     extraPackages = [
-      pkgs.amdvlk
-      pkgs.vaapiVdpau
+      pkgs.libva-vdpau-driver
       pkgs.libvdpau-va-gl
       # pkgs.rocm-opencl-icd
       # pkgs.rocm-opencl-runtime

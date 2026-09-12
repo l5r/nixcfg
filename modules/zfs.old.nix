@@ -11,6 +11,7 @@ in
   fileSystems."/persist" = {
     device = "rpool/secure/nixos/persist";
     fsType = "zfs";
+    neededForBoot = true;
   };
 
   fileSystems."/home" = {

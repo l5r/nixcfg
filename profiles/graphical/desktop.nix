@@ -10,7 +10,6 @@ in
 
   programs = {
     evince.enable = true;
-    nm-applet.enable = true;
   };
 
   environment.systemPackages = with pkgs; [

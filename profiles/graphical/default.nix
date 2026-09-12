@@ -3,7 +3,7 @@
   imports = [
     ./desktop.nix
     ./audio.nix
-    ./sway.nix
+    # ./sway.nix
     ./niri.nix
     # ./greetd.nix
   ];

@@ -2,8 +2,8 @@
   imports = [
     ./dms.nix
     ./niri.nix
-    ../profiles/sway
-    ../profiles/sway/waybar.nix
+    # ../profiles/sway
+    # ../profiles/sway/waybar.nix
     ../profiles/spotify.nix
     ../profiles/fish.nix
     ../profiles/helix.nix

@@ -1,3 +1,3 @@
 { ... }: {
-  imports = [ ./adb.nix ];
+  imports = [  ];
 }
