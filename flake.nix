@@ -136,6 +136,11 @@
         nixos-hardware.nixosModules.${secrets.hardware.rpio-leander}
       ];
 
+      hosts.cristal.modules = linuxModules ++ [
+        ./hosts/cristal.nix
+        disko.nixosModules.disko
+      ];
+
       hosts.niximg.modules = [
         ./hosts/niximg.nix
       ];
@@ -198,6 +203,11 @@
         storig = {
           imports = hosts.storig.modules;
           deployment.targetHost = secrets.ips.storig;
+        };
+
+        cristal = {
+          imports = hosts.cristal.modules;
+          deployment.targetHost = "cristal.local";
         };
       };
     };

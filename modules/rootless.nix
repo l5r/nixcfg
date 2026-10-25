@@ -17,7 +17,14 @@ let
       lib.mkIf config.services.zerotierone.enable
         [ "/var/lib/zerotier-one" ]
     )
-    ["/var/lib/nixos"]
+    [
+      {
+        directory = "/var/lib/nixos";
+        user = "root";
+        group = "root";
+        mode = "0750";
+      }
+    ]
   ];
   cfg = config.rootless;
 in
