@@ -87,7 +87,7 @@ in
 
   security.acme = lib.recursiveUpdate secrets.acme {
     acceptTerms = true;
-    defaults.credentialsFile = config.age.secrets.acme-credentials.path;
+    defaults.environmentFile = config.age.secrets.acme-credentials.path;
   };
 
   users.users.nginx.extraGroups = [ "acme" ];

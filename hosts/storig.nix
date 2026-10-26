@@ -42,12 +42,22 @@ in
   boot.kernelParams = [ "ip=dhcp" ];
   boot.initrd.network = {
     enable = true;
-    udhcpc.enable = true;
     ssh = {
       enable = true;
       port = 2222;
       hostKeys = [ "/etc/ssh/ssh_host_ed25519_key" ];
       authorizedKeys = secrets.ssh.authorizedKeys.keys;
+    };
+  };
+  boot.initrd.systemd.network = {
+    enable = true;
+    wait-online.enable = true;
+
+    networks = {
+      "10-enp3s0" = {
+        matchConfig.Name = [ "en*" "eth*" ];
+        networkConfig.DHCP = "yes";
+      };
     };
   };
   environment.persistence."/persist" = {
@@ -57,7 +67,6 @@ in
     ];
     directories = [
       { directory = "/var/lib/acme"; user = "acme"; group = "acme"; mode = "0750"; }
-      { directory = "/var/lib/nixos"; user = "root"; group = "root"; mode = "0750"; }
     ];
   };
   systemd.services.sshd.wantedBy = [ "emergency.target" ];
