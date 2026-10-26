@@ -54,7 +54,7 @@
           gptfdisk
           iputils
           psmisc
-          utillinux
+          util-linux
         ];
 
       shellAliases =
@@ -80,6 +80,9 @@
 
           # git
           g = "git";
+          gs = "git status";
+          gc = "git commit";
+          gcv = "git commit -v";
 
           # grep
           grep = "rg";
