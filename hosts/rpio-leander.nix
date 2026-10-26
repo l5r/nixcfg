@@ -10,6 +10,7 @@
     ../profiles/core
     ../profiles/graphical
     ../profiles/laptop.nix
+    ../profiles/desktop-extra.nix
     ../profiles/eid.nix
     ../profiles/rpio.nix
     ../modules/applications.nix
@@ -54,13 +55,16 @@
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   services.fwupd.enable = true;
   services.fprintd.enable = true;
-  home-manager.sharedModules = [{
-    wayland.windowManager.sway = {
-      config.output."eDP-1" = {
-        scale = "1.75";
+  home-manager.sharedModules = [
+    ../users/profiles/emacs.nix
+    {
+      wayland.windowManager.sway = {
+        config.output."eDP-1" = {
+          scale = "1.75";
+        };
       };
-    };
-  }];
+    }
+  ];
 
   rootless = {
     enable = true;

@@ -5,7 +5,6 @@
     ./graphical
     ./networking
     ./networking/nas.nix
-    ./games.nix
     ./eid.nix
 
     ../modules/rootless.nix

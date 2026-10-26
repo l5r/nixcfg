@@ -4,6 +4,7 @@
     ../users/root
 
     ../profiles/desktop.nix
+    ../profiles/desktop-extra.nix
     ../profiles/devel/default.nix
     ../modules/zfs.old.nix
     ../modules/applications.nix
