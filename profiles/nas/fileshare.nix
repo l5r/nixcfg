@@ -21,6 +21,9 @@ in
       /media/naspool1 172.24.0.0/16(ro,insecure,sync,no_subtree_check,crossmnt,fsid=0)
       /media/naspool1/media 172.24.0.0/16(rw,insecure,sync,no_subtree_check,crossmnt,anonuid=2000,anongid=2000,all_squash)
     '';
+    extraNfsdConfig = ''
+      vers4=on
+    '';
   };
 
   services.samba-wsdd.enable = true;
