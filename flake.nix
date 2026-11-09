@@ -47,7 +47,11 @@
         inputs.nixpkgs.follows = "stable";
       };
       dms = {
-        url = "github:AvengeMedia/DankMaterialShell/stable";
+        url = "github:duxlabs-dev/dux-shell/stable";
+        inputs.nixpkgs.follows = "stable";
+      };
+      dank-greeter = {
+        url = "github:duxlabs-dev/dux-greeter";
         inputs.nixpkgs.follows = "stable";
       };
       niri = {
@@ -62,6 +66,7 @@
     , colmena-flake
     , disko
     , dms
+    , dank-greeter
     , flake-utils-plus
     , home
     , impermanence
@@ -80,7 +85,8 @@
         impermanence.nixosModule
         agenix.nixosModules.age
         niri.nixosModules.niri
-        dms.nixosModules.greeter
+        dms.nixosModules.dank-material-shell
+        dank-greeter.nixosModules.default
       ];
       secrets = import ./secrets;
     in
